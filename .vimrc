@@ -2,29 +2,34 @@
 set nocompatible    " use vim defaults
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " The bundles you install will be listed here
-Bundle 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 
 " to call git commands inside vim
-Bundle 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 
 " NerdTree
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 map <F2> :NERDTreeToggle<CR>
 
 "Python mode
-Bundle 'klen/python-mode'
+Plugin 'klen/python-mode'
 let g:pymode_rope = 0 " desiable autocompletion to use jedi-vim
 
 " Jedi Vim - Autocmpletion
-Bundle 'davidhalter/jedi-vim'
+Plugin 'davidhalter/jedi-vim'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 
 " The rest of your config follows here
