@@ -26,6 +26,10 @@ let g:pymode_rope = 0 " desiable autocompletion to use jedi-vim
 " Jedi Vim - Autocmpletion
 Plugin 'davidhalter/jedi-vim'
 
+" Color scheme
+set t_Co=256 " to use 256 colours
+Plugin 'tomasr/molokai'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -36,12 +40,14 @@ filetype plugin indent on    " required
 
 
 set number          " show line numbers
-colorscheme desert
+"let g:molokai_original = 1
+colorscheme molokai
 
 syntax on                 " syntax highlighing
 
 set foldmethod=indent     " folding of methods (default:za)
-set foldlevel=99
+"set foldlevel=99
+map f za
 
 set tags=tags;$HOME/.vim/tags/ "recursively searches directory for 'tags' file
 set expandtab       " tabs are converted to space
