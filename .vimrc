@@ -21,7 +21,6 @@ map <F2> :NERDTreeToggle<CR>
 
 "Python mode
 Plugin 'klen/python-mode'
-let g:pymode_rope = 0 " desiable autocompletion to use jedi-vim
 
 " Jedi Vim - Autocmpletion
 Plugin 'davidhalter/jedi-vim'
@@ -45,14 +44,14 @@ colorscheme molokai
 
 syntax on                 " syntax highlighing
 
-set foldmethod=indent     " folding of methods (default:za)
-"set foldlevel=99
-map f za
-
 set tags=tags;$HOME/.vim/tags/ "recursively searches directory for 'tags' file
+
 set expandtab       " tabs are converted to space
+"set softtabstop=4
 set tabstop=4       " numbers of spaces of tab character
 set shiftwidth=4    " numbers of spaces to (auto)indent
+"set shiftround
+
 set showcmd         " display incomplete commands
 set hlsearch        " highlight searches
 set incsearch       " do incremental searching
@@ -60,8 +59,26 @@ set ruler           " show the cursor position all the time
 set numberwidth=4   " line numbering takes up 5 spaces
 set ignorecase      " ignore case when searching
 set nowrap          " stop lines from wrapping
-set autoindent      " indent when moving to the next line while writing code
-filetype plugin indent on " turn on the indent plugins
+set mouse=a         " enable mouse
+
+
+" moving block of codes more easily
+vnoremap < <gv
+vnoremap > >gv
+
+" get matching brackets
+"inoremap {      {}<Left>
+"inoremap {<CR>  {<CR>}<Esc>O
+"inoremap {{     {
+"inoremap {}     {}
+"inoremap (      ()<Left>
+"inoremap (<CR>  (<CR>}<Esc>O
+"inoremap ((     (
+"inoremap ()     ()
+"inoremap [      []<Left>
+"inoremap [<CR>  [<CR>]<Esc>O
+"inoremap [[     [
+"inoremap []     []
 
 set cursorline      " show a visual line under the cursor's current line 
 
@@ -112,8 +129,14 @@ let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 " Don't autofold code
-let g:pymode_folding = 0
+let g:pymode_folding = 1 
+map f za
+map F zA
 
+let g:pymode_trim_whitespaces = 1
+
+let g:pymode_rope = 0 " desiable autocompletion to use jedi-vim
+let g:pymode_motion = 1  " jump to class or function
 
 augroup vimrc_autocmds
     autocmd!
