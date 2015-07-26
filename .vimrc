@@ -1,4 +1,3 @@
-
 set nocompatible    " use vim defaults
 filetype off
 

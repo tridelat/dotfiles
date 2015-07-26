@@ -9,10 +9,16 @@
 ; packages to be installed
 (defvar required-packages
     '(
+      auto-complete
+      deferred ; needed for jedi
+      epc   ; needed for jedi
       evil 
       evil-search-highlight-persist
+      jedi
       powerline
-      monokai-theme
+      python-environment    ; required for jedi
+      color-theme-sanityinc-tomorrow monokai-theme molokai-theme color-theme-zenburn solarized-theme
+      virtualenv    ; required for jedi
                       ) "a list of packages to ensure are installed at launch.")
 
  (require 'cl)
