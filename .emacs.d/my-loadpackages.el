@@ -11,17 +11,16 @@
     '(
       auctex
       auto-complete
-      deferred ; needed for jedi
-      epc   ; needed for jedi
       evil
       evil-leader
       evil-search-highlight-persist
       flycheck
+      ipython
       jedi
+      org
       powerline
-      python-environment    ; required for jedi
+      projectile
       color-theme-sanityinc-tomorrow monokai-theme molokai-theme zenburn-theme solarized-theme
-      virtualenv    ; required for jedi
                       ) "a list of packages to ensure are installed at launch.")
 
  (require 'cl)
