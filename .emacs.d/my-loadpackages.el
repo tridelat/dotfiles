@@ -11,6 +11,7 @@
     '(
       auctex
       auto-complete
+      column-marker
       evil
       evil-leader
       evil-search-highlight-persist
@@ -23,13 +24,13 @@
       color-theme-sanityinc-tomorrow monokai-theme molokai-theme zenburn-theme solarized-theme
                       ) "a list of packages to ensure are installed at launch.")
 
- (require 'cl)
+(require 'cl)
 
- ; method to check if all packages are installed
- (defun packages-installed-p ()
-   (loop for p in required-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
+; method to check if all packages are installed
+(defun packages-installed-p ()
+  (loop for p in required-packages
+       when (not (package-installed-p p)) do (return nil)
+       finally (return t)))
 
 
 ; if not all packages are installed, check one by one and install the missing ones.

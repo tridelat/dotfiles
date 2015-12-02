@@ -10,23 +10,29 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ; need to install: pip install pylint, in order to get python syntax check
 
+;; options for fill-column highlighting
+(setq-default fill-column 80)
+(require 'column-marker)
+(set-face-background 'column-marker-1 "red")
+
 ; general programming options
 (defun my-prog-options ()
   (linum-mode 1) ; line numbering
   (hs-minor-mode 1) ; code folding
   (show-paren-mode 1) ; highlight matching parenthesis
   (electric-pair-mode 1) ; inserts matching parenthesis
+  (column-marker-1 fill-column) ; highlights fill-column
   )
 (add-hook 'prog-mode-hook 'my-prog-options)
 (setq-default indent-tabs-mode nil)
 (add-hook 'LaTeX-mode-hook 'my-prog-options)
+; automatically not caching for LaTeX preview (problems with subfiles otherwise)
+(setq preview-auto-cache-preamble nil)
 
 (require 'auto-complete)
 (autoload 'jedi:setup "jedi" nil t)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)                 ; optional
-
-
 
 (load-theme 'zenburn t)
 ;(require 'color-theme-sanityinc-tomorrow)
@@ -50,7 +56,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; I there is more than one, they won't work right.
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(initial-frame-alist (quote ((fullscreen . maximized)))) ; starts with full screen
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom
  ;; If you edit it by hand, you could mess it up, so be careful.

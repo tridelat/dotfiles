@@ -12,6 +12,7 @@
   "b b" 'switch-to-buffer
   "b n" 'switch-to-buffer-other-window
   "b j" 'next-buffer
+  "d <SPC>" 'delete-trailing-whitespace
   )
 (defun latex-kb ()
 (evil-leader/set-key
@@ -89,8 +90,16 @@
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
 
-; other keybindings
+;; toggle hide/show all with a single key.
+;; Here are a few lines of code that lets me do just that.
+(defvar my-hs-hide nil "Current state of hideshow for toggling all.")
+  ;;;###autoload
+  (defun my-toggle-hideshow-all () "Toggle hideshow all."
+    (interactive)
+    (setq my-hs-hide (not my-hs-hide))
+    (if my-hs-hide
+        (hs-hide-all)
+      (hs-show-all)))
 
 (define-key evil-normal-state-map "f" 'hs-toggle-hiding)
-(define-key evil-normal-state-map "F" 'hs-hide-all)
-
+(define-key evil-normal-state-map "F" 'my-toggle-hideshow-all)
