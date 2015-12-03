@@ -1,4 +1,3 @@
-
 (require 'evil-leader)
 (global-evil-leader-mode 1)
 (evil-leader/set-leader ",")
@@ -6,18 +5,38 @@
   "." 'eval-buffer
   "," 'projectile-find-file
   "/" 'dired-jump
-  "t" 'orgtbl-mode 
+  ;; coding options
   "c" 'comment-or-uncomment-region
+  "d <SPC>" 'delete-trailing-whitespace
+  ;; tables
+  "t t" 'orgtbl-mode 
+  "t c" 'org-table-insert-column
+  "t r" 'org-table-insert-row
+  "t h" 'org-table-move-column-left
+  "t l" 'org-table-move-column-right
+  "t j" 'org-table-move-row-down
+  "t k" 'org-table-move-row-up
+  "t -" 'org-table-insert-hline
+  ;; buffers
   "w" 'save-buffer
   "k" 'kill-buffer 
   "b b" 'switch-to-buffer
   "b n" 'switch-to-buffer-other-window
   "b j" 'next-buffer
-  "d <SPC>" 'delete-trailing-whitespace
+  )
+(defun prog-kb ()
+  (define-key evil-normal-state-map "f" 'hs-toggle-hiding)
+  (define-key evil-normal-state-map "F" 'my-toggle-hideshow-all)
   )
 (defun latex-kb ()
 (evil-leader/set-key
   "p" 'preview-buffer
+  "l e" 'LaTeX-environment
+  "l c" 'LaTeX-close-environment
+  (define-key evil-normal-state-map "f" 'hide-entry)
+  (define-key evil-normal-state-map "F" 'hide-body)
+  (define-key evil-normal-state-map "s" 'show-entry)
+  (define-key evil-normal-state-map "S" 'show-all)
   ))
 (defun error-kb ()
 (evil-leader/set-key
@@ -25,6 +44,7 @@
   "e j" 'flycheck-next-error
   "e k" 'flycheck-previous-error
   ))
+(add-hook 'prog-mode-hook 'prog-kb)
 (add-hook 'LaTeX-mode-hook 'latex-kb)
 (add-hook 'flycheck-mode-hook 'error-kb)
 
@@ -102,5 +122,3 @@
         (hs-hide-all)
       (hs-show-all)))
 
-(define-key evil-normal-state-map "f" 'hs-toggle-hiding)
-(define-key evil-normal-state-map "F" 'my-toggle-hideshow-all)
