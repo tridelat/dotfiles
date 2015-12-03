@@ -18,6 +18,7 @@
       flycheck
       ipython
       jedi
+      key-chord
       markdown-mode
       org
       ox-gfm
