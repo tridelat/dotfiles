@@ -5,7 +5,8 @@
 (evil-leader/set-key
   "." 'eval-buffer
   "," 'projectile-find-file
-  "t" 'dired-jump
+  "/" 'dired-jump
+  "t" 'orgtbl-mode 
   "c" 'comment-or-uncomment-region
   "w" 'save-buffer
   "k" 'kill-buffer 

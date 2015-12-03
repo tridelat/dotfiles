@@ -23,9 +23,15 @@
   (electric-pair-mode 1) ; inserts matching parenthesis
   (column-marker-1 fill-column) ; highlights fill-column
   )
+(defun my-latex-options ()
+  (linum-mode 1) ; line numbering
+  (hs-minor-mode 1) ; code folding
+  (show-paren-mode 1) ; highlight matching parenthesis
+  (electric-pair-mode 1) ; inserts matching parenthesis
+  )
 (add-hook 'prog-mode-hook 'my-prog-options)
 (setq-default indent-tabs-mode nil)
-(add-hook 'LaTeX-mode-hook 'my-prog-options)
+(add-hook 'LaTeX-mode-hook 'my-latex-options)
 ; automatically not caching for LaTeX preview (problems with subfiles otherwise)
 (setq preview-auto-cache-preamble nil)
 
@@ -37,6 +43,12 @@
 (load-theme 'zenburn t)
 ;(require 'color-theme-sanityinc-tomorrow)
 ;(color-theme-sanityinc-tomorrow--define-theme bright)
+
+
+(eval-after-load "org"
+  '(require 'ox-md nil t))
+
+(require 'ox-gfm nil t)
 
 (require 'powerline)
 (powerline-default-theme)
@@ -55,12 +67,12 @@
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
- ;; I there is more than one, they won't work right.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "2e5705ad7ee6cfd6ab5ce81e711c526ac22abed90b852ffaf0b316aa7864b11f" "05c3bc4eb1219953a4f182e10de1f7466d28987f48d647c01f1f0037ff35ab9a" "08851585c86abcf44bb1232bced2ae13bc9f6323aeda71adfa3791d6e7fea2b6" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(inhibit-startup-screen t)
- '(initial-frame-alist (quote ((fullscreen . maximized)))) ; starts with full screen
- )
+ '(initial-frame-alist (quote ((fullscreen . maximized)))))
 (custom-set-faces
- ;; custom-set-faces was added by Custom
+ ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.

@@ -18,7 +18,9 @@
       flycheck
       ipython
       jedi
+      markdown-mode
       org
+      ox-gfm
       powerline
       projectile
       color-theme-sanityinc-tomorrow monokai-theme molokai-theme zenburn-theme solarized-theme
