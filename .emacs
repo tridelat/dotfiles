@@ -15,7 +15,8 @@
 (require 'column-marker)
 (set-face-background 'column-marker-1 "red")
 
-(linum-mode 1) ; line numbering
+(setq-default indent-tabs-mode nil)
+(global-linum-mode 1) ; line numbering
 (show-paren-mode 1) ; highlight matching parenthesis
 (electric-pair-mode 1) ; inserts matching parenthesis
 ; general programming options
@@ -24,19 +25,15 @@
   (column-marker-1 fill-column) ; highlights fill-column
   )
 (defun my-latex-options ()
-  (linum-mode 1) ; line numbering
-  (hs-minor-mode 1) ; code folding
-  (show-paren-mode 1) ; highlight matching parenthesis
-  (electric-pair-mode 1) ; inserts matching parenthesis
   (outline-minor-mode 1) ; to fold sections
   (TeX-fold-mode 1) ; characters and references folded
   (add-hook 'find-file-hook 'TeX-fold-buffer t) ; TeX-fold-buffer automatically
+  ;; automatically not caching for LaTeX preview (problems with subfiles otherwise)
+  (setq preview-auto-cache-preamble nil)
   )
 (add-hook 'prog-mode-hook 'my-prog-options)
-(setq-default indent-tabs-mode nil)
 (add-hook 'LaTeX-mode-hook 'my-latex-options)
-; automatically not caching for LaTeX preview (problems with subfiles otherwise)
-(setq preview-auto-cache-preamble nil)
+(add-hook 'latex-mode-hook 'my-latex-options)
 
 (require 'auto-complete)
 (autoload 'jedi:setup "jedi" nil t)
@@ -48,9 +45,9 @@
 ;(color-theme-sanityinc-tomorrow--define-theme bright)
 
 
+;; need org-mode 8.0+ for the following
 (eval-after-load "org"
   '(require 'ox-md nil t))
-
 (require 'ox-gfm nil t)
 
 (require 'powerline)

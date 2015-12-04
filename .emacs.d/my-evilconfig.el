@@ -34,21 +34,23 @@
   (define-key evil-normal-state-map "F" 'my-toggle-hideshow-all)
   )
 (defun latex-kb ()
-(evil-leader/set-key
-  "p" 'preview-buffer
-  "l e" 'LaTeX-environment
-  "l c" 'LaTeX-close-environment
+  (evil-leader/set-key
+    "p" 'preview-buffer
+    "l e" 'LaTeX-environment
+    "l c" 'LaTeX-close-environment
+  )
   (define-key evil-normal-state-map "f" 'hide-entry)
   (define-key evil-normal-state-map "F" 'hide-body)
   (define-key evil-normal-state-map "s" 'show-entry)
   (define-key evil-normal-state-map "S" 'show-all)
-  ))
+  )
 (defun error-kb ()
-(evil-leader/set-key
-  "e e" 'flycheck-list-errors
-  "e j" 'flycheck-next-error
-  "e k" 'flycheck-previous-error
-  ))
+  (evil-leader/set-key
+    "e e" 'flycheck-list-errors
+    "e j" 'flycheck-next-error
+    "e k" 'flycheck-previous-error
+  )
+  )
 (add-hook 'prog-mode-hook 'prog-kb)
 (add-hook 'LaTeX-mode-hook 'latex-kb)
 (add-hook 'flycheck-mode-hook 'error-kb)
