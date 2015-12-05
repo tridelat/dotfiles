@@ -40,7 +40,7 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)                 ; optional
 
-(load-theme 'zenburn t)
+(load-theme 'molokai t)
 ;(require 'color-theme-sanityinc-tomorrow)
 ;(color-theme-sanityinc-tomorrow--define-theme bright)
 
