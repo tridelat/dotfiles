@@ -1,11 +1,16 @@
 (require 'evil-leader)
+(define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+(define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 (require 'key-chord)
+(define-key evil-normal-state-map (kbd ";") 'evil-ex) ; map :
 (setq key-chord-two-keys-delay 0.2)
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
 (global-evil-leader-mode 1)
-(evil-leader/set-leader ",")
+(evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "." 'eval-buffer
   "," 'projectile-find-file
@@ -13,6 +18,9 @@
   ;; coding options
   "c" 'comment-or-uncomment-region
   "d <SPC>" 'delete-trailing-whitespace
+  ;; windows
+  "w v" 'split-window-right
+  "w s" 'split-window-below
   ;; tables
   "t t" 'orgtbl-mode 
   "t c" 'org-table-insert-column
@@ -23,11 +31,12 @@
   "t k" 'org-table-move-row-up
   "t -" 'org-table-insert-hline
   ;; buffers
-  "w" 'save-buffer
-  "k" 'kill-buffer 
+  "k k" 'kill-this-buffer
+  "k b" 'kill-buffer
   "b b" 'switch-to-buffer
   "b n" 'switch-to-buffer-other-window
-  "b j" 'next-buffer
+  "a" 'previous-buffer
+  "s" 'next-buffer
   )
 (defun prog-kb ()
   (define-key evil-normal-state-map "f" 'hs-toggle-hiding)

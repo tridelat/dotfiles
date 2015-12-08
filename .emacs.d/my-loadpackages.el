@@ -11,6 +11,7 @@
     '(
       auctex
       auto-complete
+      auto-complete-auctex
       column-marker
       evil
       evil-leader

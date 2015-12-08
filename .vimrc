@@ -5,10 +5,9 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
 " let Vundle manage Vundle
-" required! 
 Plugin 'gmarik/Vundle.vim'
 
-" The bundles you install will be listed here
+" information line bar
 Plugin 'bling/vim-airline'
 
 " to call git commands inside vim
@@ -21,24 +20,28 @@ map <F2> :NERDTreeToggle<CR>
 "Python mode
 Plugin 'klen/python-mode'
 
-" Jedi Vim - Autocmpletion
+" Jedi Vim - Autcompletion
 Plugin 'davidhalter/jedi-vim'
 
 " Color scheme
 set t_Co=256 " to use 256 colours
 Plugin 'tomasr/molokai'
 
-
-" All of your Plugins must be added before the following line
+" All pPlugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 
 " The rest of your config follows here
 
-
-set number          " show line numbers
-"let g:molokai_original = 1
+let mapleader = " "
+" show line number
+set number
+" visual autocomplete for command menu
+set wildmenu
+" redraw only when vim needs to
+set lazyredraw
+" let g:molokai_original = 1
 colorscheme molokai
 
 syntax on                 " syntax highlighing
@@ -51,6 +54,11 @@ set tabstop=4       " numbers of spaces of tab character
 set shiftwidth=4    " numbers of spaces to (auto)indent
 "set shiftround
 
+" mapping escape key
+inoremap jk <Esc>
+" mapping command key
+nmap ; :
+
 set showcmd         " display incomplete commands
 set hlsearch        " highlight searches
 set incsearch       " do incremental searching
@@ -61,6 +69,8 @@ set nowrap          " stop lines from wrapping
 set mouse=a         " enable mouse
 
 
+" reload .vimrc
+nnoremap <LEADER>rv :source $MYVIMRC<CR>
 " moving block of codes more easily
 vnoremap < <gv
 vnoremap > >gv
@@ -82,13 +92,14 @@ vnoremap > >gv
 set cursorline      " show a visual line under the cursor's current line 
 
 set showmatch       " show the matching part of the pair for [] {} and ()
+" How many tenths of a second to blink when matching brackets
+set mat=2
 
 " moving betwen windows
-map <c-j> <c-w>j
-map <c-k> <c-w>k
-map <c-l> <c-w>l
-map <c-h> <c-w>h
-
+map <C-j> <C-W>j<C-W>_
+map <C-k> <C-W>k<C-W>_
+map <C-l> <C-W>l<C-W>_
+map <C-h> <C-W>h<C-W>_
 
 " Python-mode
 " Activate rope
@@ -108,7 +119,7 @@ map <c-h> <c-w>h
 let g:pymode_doc = 1
 let g:pymode_doc_key = 'K'
 
-"Linting
+" Linting
 let g:pymode_lint = 1
 let g:pymode_lint_checker = "pyflakes,pep8"
 " Auto check on save

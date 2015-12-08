@@ -15,6 +15,11 @@
 (require 'column-marker)
 (set-face-background 'column-marker-1 "red")
 
+;; autocomplete options
+(require 'auto-complete)
+(global-auto-complete-mode t)
+(require 'auto-complete-auctex)
+
 (setq-default indent-tabs-mode nil)
 (global-linum-mode 1) ; line numbering
 (show-paren-mode 1) ; highlight matching parenthesis
@@ -33,9 +38,8 @@
   )
 (add-hook 'prog-mode-hook 'my-prog-options)
 (add-hook 'LaTeX-mode-hook 'my-latex-options)
-(add-hook 'latex-mode-hook 'my-latex-options)
 
-(require 'auto-complete)
+
 (autoload 'jedi:setup "jedi" nil t)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)                 ; optional
