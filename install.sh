@@ -20,9 +20,10 @@ fi
 # install plugins through vundle
 
 # ---------- zsh ----------
+ln -sfn ${BASEDIR}/.zshrc ~/.zshrc
 if [ ! -d ${BASEDIR}/.antigen ]
 then
-    git clone https://github.com/powerline/fonts ${BASEDIR}/.antigen
+    git clone https://github.com/zsh-users/antigen ${BASEDIR}/.antigen
     ln -sfn ${BASEDIR}/.antigen/ ~/.antigen
 fi
 if [ ! -d ${BASEDIR}/fonts ]
@@ -34,7 +35,6 @@ if [ ! -d ${BASEDIR}/gnome-terminal-colors-solarized ]
 then
     git clone https://github.com/sigurdga/gnome-terminal-colors-solarized.git ${BASEDIR}/gnome-terminal-colors-solarized
     ${BASEDIR}/gnome-terminal-colors-solarized/install.sh
-    gconftool-2 --set /apps/gnome-terminal/profiles/Default/font --type string "Ubuntu Mono derivative Powerline 12"
 fi
 # chsh -s /bin/zsh
 
