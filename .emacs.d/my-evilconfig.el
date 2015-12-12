@@ -4,7 +4,7 @@
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
 (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 (require 'key-chord)
-(define-key evil-normal-state-map (kbd ";") 'evil-ex) ; map :
+(define-key evil-normal-state-map (kbd ";") 'smex) ; map :
 (setq key-chord-two-keys-delay 0.2)
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
@@ -13,14 +13,18 @@
 (evil-leader/set-leader "<SPC>")
 (evil-leader/set-key
   "." 'eval-buffer
-  "," 'projectile-find-file
   "/" 'dired-jump
+  "f" 'find-file-at-point
+  "w" 'evil-write
+  "q" 'evil-quit
+  "i p" 'my-elpy-python-switch2
+  "t e" 'ansi-term
   ;; coding options
   "c" 'comment-or-uncomment-region
   "d <SPC>" 'delete-trailing-whitespace
   ;; windows
-  "w v" 'split-window-right
-  "w s" 'split-window-below
+  "v" 'split-window-right
+  "s" 'split-window-below
   ;; tables
   "t t" 'orgtbl-mode 
   "t c" 'org-table-insert-column
@@ -32,7 +36,7 @@
   "t -" 'org-table-insert-hline
   ;; buffers
   "k k" 'kill-this-buffer
-  "k b" 'kill-buffer
+  "b k" 'kill-buffer
   "b b" 'switch-to-buffer
   "b n" 'switch-to-buffer-other-window
   "a" 'previous-buffer
@@ -60,9 +64,17 @@
     "e k" 'flycheck-previous-error
   )
   )
+(defun projectile-kb ()
+  (evil-leader/set-key
+    "g" 'projectile-grep
+    "," 'projectile-find-file
+  )
+  )
 (add-hook 'prog-mode-hook 'prog-kb)
+(add-hook 'elpy-mode-hook 'prog-kb)
 (add-hook 'LaTeX-mode-hook 'latex-kb)
 (add-hook 'flycheck-mode-hook 'error-kb)
+(add-hook 'projectile-mode-hook 'projectile-kb)
 
 
 (evil-mode 1)
@@ -138,3 +150,66 @@
         (hs-hide-all)
       (hs-show-all)))
 
+
+;; vim-like alias for M-x commands
+(defalias 'w 'evil-write)
+(defalias 'w! 'evil-write "<!>")
+(defalias 'wq 'evil-save-and-close)
+(defalias 'wq! 'evil-save-and-close "<!>")
+(defalias 'q 'evil-quit)
+(defalias 'q! 'evil-quit "<!>")
+(defalias 'qa 'evil-quit-all)
+(defalias 'qa! 'evil-quit-all "<!>")
+
+
+(defun my-ipython-switch ()
+  (interactive)
+  (if (and (fboundp 'ipython) 
+           (not (get-process "ipython")))
+    ; if true, progn for several statements
+    (progn
+      (ipython-dedicated-switch)
+    )
+    ; if flase
+    (progn
+      (pop-to-buffer (process-buffer (get-process "ipython"))
+      (evil-insert-state))
+  )
+)
+)
+
+(defun my-elpy-python-switch ()
+  (interactive)
+  (if (and (not (get-process "Python")))
+    ; if true, progn for several statements
+    (progn
+      (defvar width-thresh split-width-threshold)
+      (setq split-width-threshold 0)
+      (pop-to-buffer (other-buffer (current-buffer) t))
+      (setq split-width-threshold width-thresh)
+      (elpy-shell-switch-to-shell)
+    )
+    ; if flase
+    (progn
+      (pop-to-buffer (process-buffer (get-process "Python")) t)
+      (evil-insert-state)
+    )
+  )
+)
+
+(defun my-elpy-python-switch2 ()
+  (interactive)
+  (if (and (not (get-process "Python")))
+    ; if true, progn for several statements
+    (progn
+      (defvar width-thresh split-width-threshold)
+      (elpy-shell-switch-to-shell)
+      (setq split-width-threshold width-thresh)
+    )
+    ; if flase
+    (progn
+      (elpy-shell-switch-to-shell)
+      (evil-insert-state)
+    )
+  )
+)

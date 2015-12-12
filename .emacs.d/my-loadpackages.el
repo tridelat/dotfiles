@@ -4,6 +4,8 @@
    '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
    '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
 
 ; packages to be installed
@@ -13,6 +15,7 @@
       auto-complete
       auto-complete-auctex
       column-marker
+      elpy
       evil
       evil-leader
       evil-search-highlight-persist
@@ -21,10 +24,13 @@
       jedi
       key-chord
       markdown-mode
+      material-theme
       org
       ox-gfm
       powerline
       projectile
+      python-mode
+      smex  ; autocomplete commands
       color-theme-sanityinc-tomorrow monokai-theme molokai-theme zenburn-theme solarized-theme
                       ) "a list of packages to ensure are installed at launch.")
 

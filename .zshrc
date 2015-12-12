@@ -26,3 +26,4 @@ setopt histignorealldups sharehistory
 #SAVEHIST=1000
 #HISTFILE=~/.zsh_history
 #
+alias proteus='export PATH=~/PROTEUS/proteus/linux2/bin:$PATH'

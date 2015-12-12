@@ -10,6 +10,25 @@
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ; need to install: pip install pylint, in order to get python syntax check
 
+;; COMMANDS
+;; interactive selection
+(require 'ido)
+(ido-mode 1)
+(setq ido-enable-flex-matching t)
+(require 'smex)  ; for commands
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+
+;(require 'python-mode)
+(elpy-enable)
+(elpy-use-ipython)
+(setq elpy-rpc-backend "jedi")
+;; GIT
+;; navigate project, grep, etc
+(projectile-global-mode)
+
 ;; options for fill-column highlighting
 (setq-default fill-column 79)
 (require 'column-marker)
@@ -20,6 +39,7 @@
 (global-auto-complete-mode t)
 (require 'auto-complete-auctex)
 
+
 (setq-default indent-tabs-mode nil)
 (global-linum-mode 1) ; line numbering
 (show-paren-mode 1) ; highlight matching parenthesis
@@ -29,6 +49,9 @@
   (hs-minor-mode 1) ; code folding
   (column-marker-1 fill-column) ; highlights fill-column
   )
+(defun my-python-options ()
+  ;(require 'python-mode)
+  )
 (defun my-latex-options ()
   (outline-minor-mode 1) ; to fold sections
   (TeX-fold-mode 1) ; characters and references folded
@@ -37,11 +60,13 @@
   (setq preview-auto-cache-preamble nil)
   )
 (add-hook 'prog-mode-hook 'my-prog-options)
+(add-hook 'elpy-mode-hook 'my-prog-options)
 (add-hook 'LaTeX-mode-hook 'my-latex-options)
-
 
 (autoload 'jedi:setup "jedi" nil t)
 (add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'python-mode-hook 'my-python-options)
+(add-hook 'elpy-mode-hook 'my-python-options)
 (setq jedi:complete-on-dot t)                 ; optional
 
 (load-theme 'molokai t)
@@ -58,13 +83,7 @@
 (powerline-default-theme)
 (display-time-mode t)
 
-(require 'ido)
-(ido-mode 1)
-(setq ido-enable-flex-matching t)
 
-;(require 'python)
-;(setq python-shell-interpreter "ipython")
-;(setq python-shell-interpreter-args "--pylab")
 
 
 (custom-set-variables
@@ -81,3 +100,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
