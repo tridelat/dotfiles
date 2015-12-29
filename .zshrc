@@ -1,5 +1,5 @@
 source ~/.antigen/antigen.zsh
-
+TERM='xterm-256color'
 antigen use oh-my-zsh
 
 antigen bundle git
