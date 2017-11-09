@@ -8,6 +8,8 @@
    dotspacemacs-distribution 'spacemacs
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+   dotspacemacs-enable-lazy-installation 'unused
+   dotspacemacs-ask-for-lazy-installation t
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
    '(
@@ -18,11 +20,13 @@
      chinese
      django
      emacs-lisp
+     helm
      games
      git
      ipython-notebook
      (latex :variables
-            latex-enable-auto-fill t)
+            latex-enable-auto-fill t
+            latex-enable-folding t)
      markdown
      org
      python
@@ -37,13 +41,17 @@
      yaml
      )
    dotspacemacs-additional-packages '(eyebrowse)
+   dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages '(evil-indent-textobject)
+   dotspacemacs-install-packages 'used-only
    dotspacemacs-delete-orphan-packages t))
 
 (defun dotspacemacs/init ()
   (setq-default
    dotspacemacs-editing-style 'vim
    dotspacemacs-verbose-loading nil
+   dotspacemacs-elpa-https t
+   dotspacemacs-elpa-timeout 5
 
    dotspacemacs-startup-lists '(recents projects)
    dotspacemacs-themes '(monokai
@@ -87,6 +95,8 @@
    dotspacemacs-persistent-server nil
    dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
    dotspacemacs-default-package-repository nil
+   dotspacemacs-line-numbers t
+   dotspacemacs-folding-method 'evil
    ))
 
 (defun dotspacemacs/user-init ()
@@ -123,6 +133,9 @@
   ;; Python
   (setq python-shell-interpreter "ipython")
 
+  ;; LaTeX
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)  ;; auto preview when opening
+
   ;; ---------------------------
   ;; ------ KEY BINDINGS -------
   ;; ---------------------------
@@ -143,7 +156,6 @@
     "o t k" 'org-table-move-row-up
     "o t -" 'org-table-insert-hline
     )
-
   ;; toggle hide/show all with a single key.
   (defvar my-hs-hide nil "Current state of hideshow for toggling all.")
   (defun my-toggle-hideshow-all () "Toggle hideshow all."
