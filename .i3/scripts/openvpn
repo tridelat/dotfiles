@@ -6,7 +6,7 @@
 # Usage:
 # 1. The configuration name of OpenVPN should be familiar for you (home,work...)
 # 2. The device name in your configuration file should be fully named (tun0,tap1...not only tun or tap)
-# 3. When you launch one or multiple OpenVPN connexion, be sure the PID file is written in the correct folder (ex: --writepid /run/openvpn/home.pid)
+# 3. When you launch one or multiple OpenVPN connexion, be sure the PID file is written in the correct folder (ex: --writepid /run/openvpn-client/home.pid)
 
 use strict;
 use warnings;
@@ -25,12 +25,11 @@ sub print_output {
     # Total pid files
     my $total_pid = @pid_files;
     if ($total_pid == 0) {
-        print "VPN: down\n"x2;
+        print " down\n"x2;
+        print '#FF0000\n';
         # Delete OpenVPN i3blocks temp files
         if (-f $openvpn_enabled) {
             unlink $openvpn_enabled or die "Can't delete $openvpn_enabled\n";
-            # Colorize if VPN has just went down
-            print '#FF0000\n';
         }
         unless (-f $openvpn_disabled) {
             open(my $shm, '>', $openvpn_disabled) or die "Can't write $openvpn_disabled\n";
@@ -119,8 +118,16 @@ sub print_output {
         $names = $short_status;
     }
 
-    print "VPN: $names\n";
-    print "VPN: $short_status\n";
+    if ($short_status eq 'up') {
+        print " $names\n";
+        print "$short_status\n";
+        print "#00FF00\n";
+    }
+    if ($short_status eq 'down') {
+        print " $short_status\n";
+        print "$short_status\n";
+        print "#FF0000\n";
+    }
 
     # Print color if there were changes
     print "#00FF00\n" if ($change == 1);
@@ -130,7 +137,7 @@ sub print_output {
 
 sub check_opts {
     # Vars
-    my @pid_file=glob '/run/openvpn/*.pid';
+    my @pid_file=glob '/run/openvpn-client/*.pid';
 
     # Set options
     GetOptions( "help|h" => \&help,
@@ -141,7 +148,7 @@ sub check_opts {
 
 sub help {
     print "Usage: openvpn [-d pid folder files]\n";
-    print "-d : pid folder files (default /run/openvpn/*.pid)\n";
+    print "-d : pid folder files (default /run/openvpn-client/*.pid)\n";
     print "Note: devices in configuration file should be named with their number (ex: tun0, tap1)\n";
     exit(1);
 }
