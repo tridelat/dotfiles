@@ -6,7 +6,7 @@
 # Usage:
 # 1. The configuration name of OpenVPN should be familiar for you (home,work...)
 # 2. The device name in your configuration file should be fully named (tun0,tap1...not only tun or tap)
-# 3. When you launch one or multiple OpenVPN connexion, be sure the PID file is written in the correct folder (ex: --writepid /run/openvpn-client/home.pid)
+# 3. When you launch one or multiple OpenVPN connexion, be sure the PID file is written in the correct folder (ex: --writepid ~/.i3/scripts/home.pid)
 
 use strict;
 use warnings;
@@ -137,7 +137,7 @@ sub print_output {
 
 sub check_opts {
     # Vars
-    my @pid_file=glob '/run/openvpn-client/*.pid';
+    my @pid_file=glob '~/.i3/scripts/*.pid';
 
     # Set options
     GetOptions( "help|h" => \&help,
@@ -148,7 +148,7 @@ sub check_opts {
 
 sub help {
     print "Usage: openvpn [-d pid folder files]\n";
-    print "-d : pid folder files (default /run/openvpn-client/*.pid)\n";
+    print "-d : pid folder files (default ~/.i3/scripts/*.pid)\n";
     print "Note: devices in configuration file should be named with their number (ex: tun0, tap1)\n";
     exit(1);
 }
