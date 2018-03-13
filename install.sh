@@ -57,14 +57,25 @@ if [[ $ANSWER =~ ^[Yy]$ ]]
         git clone https://github.com/zsh-users/antigen ${BASEDIR}/.antigen
         ln -sfn ${BASEDIR}/.antigen/ ~/.antigen
     fi
-    if [ ! -d ${BASEDIR}/fonts ]
-    then
-        git clone https://github.com/powerline/fonts ${BASEDIR}/fonts
-        ${BASEDIR}/fonts/install.sh
-    fi
-    if [ ! -d ${BASEDIR}/gnome-terminal-colors-solarized ]
-    then
-        git clone https://github.com/sigurdga/gnome-terminal-colors-solarized.git ${BASEDIR}/gnome-terminal-colors-solarized
-        ${BASEDIR}/gnome-terminal-colors-solarized/install.sh
-    fi
+#    if [ ! -d ${BASEDIR}/fonts ]
+#    then
+#        git clone https://github.com/powerline/fonts ${BASEDIR}/fonts
+#        ${BASEDIR}/fonts/install.sh
+#    fi
+#    if [ ! -d ${BASEDIR}/gnome-terminal-colors-solarized ]
+#    then
+#        git clone https://github.com/sigurdga/gnome-terminal-colors-solarized.git ${BASEDIR}/gnome-terminal-colors-solarized
+#        ${BASEDIR}/gnome-terminal-colors-solarized/install.sh
+#    fi
 fi
+
+# ---------- i3 ----------
+echo -n "Install i3 configuration [Y/n]: "
+read ANSWER
+ANSWER="${ANSWER:=Y}"
+if [[ $ANSWER =~ ^[Yy]$ ]]
+    then
+        ln -sfn ${BASEDIR}/.i3 ~/.i3
+fi
+
+

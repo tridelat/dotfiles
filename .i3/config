@@ -251,7 +251,12 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+
+# assign programs to specific workspaces
+assign [class="Emacs"] $workspace3
+
 exec --no-startup-id compton -b
 exec --no-startup-id $term
 exec_always feh --bg-scale /home/tridelat/Pictures/archlinux_bg1.jpg
+exec --no-startup-id emacs
 
