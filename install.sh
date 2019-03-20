@@ -75,7 +75,7 @@ read ANSWER
 ANSWER="${ANSWER:=Y}"
 if [[ $ANSWER =~ ^[Yy]$ ]]
     then
-        ln -sfn ${BASEDIR}/.i3 ~/.i3
+        ln -sfn ${BASEDIR}/.config/i3 ~/config/i3
 fi
 
 
