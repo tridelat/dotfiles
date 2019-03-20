@@ -189,7 +189,7 @@ set $urgent-bg-color     #E53935
 
 
 bar {
-    status_command i3blocks -c ./.i3/i3blocks.conf
+    status_command i3blocks -c ./.config/i3/i3blocks.conf
     colors {
         background $bg-color
         separator #757575
@@ -255,7 +255,7 @@ bindsym XF86AudioPrev exec playerctl previous
 assign [class="Emacs"] $workspace3
 assign [class="system_monitor"] $workspace0
 
-exec --no-startup-id compton -b
+exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 exec --no-startup-id $term
 exec_always feh --bg-scale /home/tridelat/Pictures/retrowave9.jpg
 # exec --no-startup-id emacs --daemon=instance1
