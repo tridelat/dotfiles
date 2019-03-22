@@ -257,7 +257,7 @@ assign [class="system_monitor"] $workspace0
 
 exec --no-startup-id compton -b --config ~/.config/compton/compton.conf
 exec --no-startup-id $term
-exec_always feh --bg-scale /home/tridelat/Pictures/retrowave9.jpg
+exec_always feh --bg-scale ~/Pictures/retrowave9.jpg
 # exec --no-startup-id emacs --daemon=instance1
 exec --no-startup-id emacs
 exec --no-startup-id $term --class system_monitor -e gtop
