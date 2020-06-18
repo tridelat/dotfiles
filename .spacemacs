@@ -12,11 +12,14 @@
    dotspacemacs-ask-for-lazy-installation t
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
-   '(
+   '(csv
+     html
      better-defaults
-     ;; spell-checking
+     spell-checking
      auto-completion
-     c-c++
+     (c-c++ :variables
+            c-c++-enable-clang-support t
+            clang-format-style "file")
      chinese
      django
      emacs-lisp
@@ -24,23 +27,29 @@
      games
      git
      ipython-notebook
+     languagetool
+     (languagetool :variables
+                   langtool-default-language "en-GB")
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
-     markdown
+     (markdown :variables
+               markdown-live-preview-engine 'vmd)
+     pdf-tools
      org
      python
+     restructuredtext
      semantic
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
      smex
+     sphinx
      syntax-checking
      version-control
      themes-megapack
-     yaml
-     )
-   dotspacemacs-additional-packages '(eyebrowse)
+     yaml)
+   dotspacemacs-additional-packages '(eyebrowse flyspell)
    dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages '(evil-indent-textobject)
    dotspacemacs-install-packages 'used-only
@@ -55,16 +64,16 @@
 
    dotspacemacs-startup-lists '(recents projects)
    dotspacemacs-themes '(monokai
-						 spacemacs-dark
+                         ;; base16-monokai-dark
+                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
                          leuven
-                         monokai
                          zenburn)
    dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 12
+   dotspacemacs-default-font '("DejaVu Sans Mono"
+                               :size 11
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -111,7 +120,7 @@
   ;; replace tab by space
   (setq-default indent-tabs-mode nil)
   ;; line numbers
-  (global-linum-mode t)
+  ;; (global-linum-mode t)
   ;; fill column length
   (setq-default fill-column 79)
   ;; ido flex matching
@@ -135,6 +144,7 @@
 
   ;; LaTeX
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)  ;; auto preview when opening
+  ;; (setq TeX-engine 'luatex)
 
   ;; ---------------------------
   ;; ------ KEY BINDINGS -------
