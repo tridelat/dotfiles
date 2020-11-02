@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 source ~/.antigen/antigen.zsh
 TERM='xterm-256color'
 antigen use oh-my-zsh
@@ -26,4 +33,18 @@ setopt histignorealldups sharehistory
 #SAVEHIST=1000
 #HISTFILE=~/.zsh_history
 #
-alias proteus='export PATH=~/PROTEUS/proteus/linux2/bin:$PATH'
+export PATH=~/.local/bin:$PATH
+
+alias kbfr='setxkbmap -layout us -variant intl'
+alias kben='setxkbmap -layout us'
+alias azerty='setxkbmap -layout fr'
+alias qwerty='setxkbmap -layout us'
+
+export EDITOR='vim'
+
+alias gla='git log --graph --decorate --pretty=oneline --abbrev-commit --all'
+
+source ~/dotfiles/.powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

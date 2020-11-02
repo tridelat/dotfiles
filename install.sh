@@ -55,8 +55,13 @@ if [[ $ANSWER =~ ^[Yy]$ ]]
     if [ ! -d ${BASEDIR}/.antigen ]
     then
         git clone https://github.com/zsh-users/antigen ${BASEDIR}/.antigen
-        ln -sfn ${BASEDIR}/.antigen/ ~/.antigen
     fi
+    ln -sfn ${BASEDIR}/.antigen/ ~/.antigen
+    if [ ! -d ${BASEDIR}/.powerlevel10k ]
+    then
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./.powerlevel10k
+    fi
+    ln -sfn ${BASEDIR}/.p10k.zsh ~/.p10k.zsh
 #    if [ ! -d ${BASEDIR}/fonts ]
 #    then
 #        git clone https://github.com/powerline/fonts ${BASEDIR}/fonts
@@ -75,7 +80,7 @@ read ANSWER
 ANSWER="${ANSWER:=Y}"
 if [[ $ANSWER =~ ^[Yy]$ ]]
     then
-        ln -sfn ${BASEDIR}/.config/i3 ~/config/i3
+        ln -sfn ${BASEDIR}/.config/i3 ~/.config/i3
 fi
 
 

@@ -12,7 +12,8 @@
    dotspacemacs-ask-for-lazy-installation t
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
-   '(csv
+   '(
+     csv
      html
      better-defaults
      spell-checking
@@ -23,28 +24,27 @@
      chinese
      django
      emacs-lisp
-     helm
      games
      git
+     helm
      ipython-notebook
-     languagetool
-     (languagetool :variables
-                   langtool-default-language "en-GB")
+     javascript
      (latex :variables
             latex-enable-auto-fill t
             latex-enable-folding t)
      (markdown :variables
                markdown-live-preview-engine 'vmd)
-     pdf-tools
+     ;; pdf-tools
      org
-     python
-     restructuredtext
+     (python :variables
+             python-backend 'lsp
+             python-formatter 'black
+             python-format-on-save t)
      semantic
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
      smex
-     sphinx
      syntax-checking
      version-control
      themes-megapack
@@ -72,8 +72,8 @@
                          leuven
                          zenburn)
    dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font '("DejaVu Sans Mono"
-                               :size 11
+   dotspacemacs-default-font '("Source Code Pro Medium"
+                               :size 9.0
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -122,11 +122,12 @@
   ;; line numbers
   ;; (global-linum-mode t)
   ;; fill column length
-  (setq-default fill-column 79)
+  (setq-default fill-column 100)
+  (setq-default python-fill-column 100)
   ;; ido flex matching
   (setq ido-enable-flex-matching t)
   ;; org tables accessible from all modes
-  (turn-on-orgtbl)
+  (orgtbl-mode)
   ;; autocomplete
   (global-auto-complete-mode 1)
 
@@ -135,12 +136,15 @@
   ;; ---------------------------
   ;; General
   (defun my-prog-options ()
-    (fci-mode t)
+    (display-fill-column-indicator-mode 1)
+    (set-fill-column 100)
     )
   (add-hook 'prog-mode-hook 'my-prog-options)
 
   ;; Python
   (setq python-shell-interpreter "ipython")
+(add-hook 'python-mode-hook (lambda () (pyvenv-activate "/home/tdelataillade/ab/pyab")))
+
 
   ;; LaTeX
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)  ;; auto preview when opening
@@ -151,7 +155,7 @@
   ;; ---------------------------
   ;; Evil bindings
   (setq-default evil-escape-key-sequence "jk")
-  (define-key evil-normal-state-map "f" 'hs-toggle-hiding)
+  (define-key evil-normal-state-map "f" 'hs-hide-level)
   (define-key evil-normal-state-map "F" 'my-toggle-hideshow-all)
   (spacemacs/declare-prefix "o" "custom")
   (spacemacs/declare-prefix "o t" "org-table")
@@ -176,10 +180,16 @@
       (hs-show-all)
       )
   )
+  (defun my-toggle-hiding () "Toggle hiding level."
+         (interactive)
+         (hs-toggle-hiding)
+         (hs-hide-level 1)
+         )
 
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (custom-set-variables
-)
+ )
+
