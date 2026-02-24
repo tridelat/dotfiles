@@ -1,0 +1,21 @@
+repos:
+  # General file hygiene
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-json
+      - id: pretty-format-json
+        args: [--autofix, --indent, "2", --no-sort-keys]
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb, "500"]
+      - id: debug-statements
+      - id: check-ast
+
+ci:
+  autofix_commit_msg: "style: auto-fix pre-commit hooks"
+  autoupdate_commit_msg: "chore: pre-commit autoupdate"
