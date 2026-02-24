@@ -26,7 +26,7 @@
   "v" 'split-window-right
   "s" 'split-window-below
   ;; tables
-  "t t" 'orgtbl-mode 
+  "t t" 'orgtbl-mode
   "t c" 'org-table-insert-column
   "t r" 'org-table-insert-row
   "t h" 'org-table-move-column-left
@@ -164,7 +164,7 @@
 
 (defun my-ipython-switch ()
   (interactive)
-  (if (and (fboundp 'ipython) 
+  (if (and (fboundp 'ipython)
            (not (get-process "ipython")))
     ; if true, progn for several statements
     (progn

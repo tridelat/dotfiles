@@ -192,4 +192,3 @@
 ;; auto-generate custom variable definitions.
 (custom-set-variables
  )
-

@@ -43,4 +43,3 @@ rofi.color-urgent:  #073642, #dc322f, #073642, #073642, #dc322f
 
 ! Set the desired separator style
 rofi.separator-style: solid
-

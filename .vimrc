@@ -89,7 +89,7 @@ vnoremap > >gv
 "inoremap [[     [
 "inoremap []     []
 
-set cursorline      " show a visual line under the cursor's current line 
+set cursorline      " show a visual line under the cursor's current line
 
 set showmatch       " show the matching part of the pair for [] {} and ()
 " How many tenths of a second to blink when matching brackets
@@ -139,7 +139,7 @@ let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 " Don't autofold code
-let g:pymode_folding = 1 
+let g:pymode_folding = 1
 map f za
 map F zA
 
