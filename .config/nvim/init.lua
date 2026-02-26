@@ -49,32 +49,32 @@ end)
 --------------------
 --
 -- Buffer
-vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true }) -- leave insert mode
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')                   -- clear highlight search
-vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move left"<CR>')   -- forbid left arrow in normal mode
-vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move right"<CR>') -- forbid right arrow in normal mode
-vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move up"<CR>')       -- forbid up arrow in normal mode
-vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move down"<CR>')   -- forbid down arrow in normal mode
+vim.keymap.set("i", "jk", "<Esc>", { noremap = true, silent = true, desc = 'Leave insert mode' })
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear highlight search' })
+vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move left"<CR>', { desc = 'Forbid left arrow' })
+vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move right"<CR>', { desc = 'Forbid right arrow' })
+vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move up"<CR>', { desc = 'Forbid up arrow' })
+vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move down"<CR>', { desc = 'Forbid down arrow' })
 -- Window
-vim.keymap.set("n", "<leader>x", "<cmd>confirm q<CR>")                -- close window
--- focus on left window or split
+vim.keymap.set("n", "<leader>x", "<cmd>confirm q<CR>", { desc = 'Close window' })
 vim.keymap.set("n", "<C-h>", function()
   vim.cmd(vim.fn.winnr("h") ~= vim.fn.winnr() and "wincmd h" or "topleft vsplit | enew")
-end, { noremap = true, silent = true })
--- focus on lower window or split
+end, { noremap = true, silent = true, desc = 'Focus left window or split' })
 vim.keymap.set("n", "<C-j>", function()
   vim.cmd(vim.fn.winnr("j") ~= vim.fn.winnr() and "wincmd j" or "botright split | enew")
-end, { noremap = true, silent = true })
--- focus on upper window or split
+end, { noremap = true, silent = true, desc = 'Focus lower window or split' })
 vim.keymap.set("n", "<C-k>", function()
   vim.cmd(vim.fn.winnr("k") ~= vim.fn.winnr() and "wincmd k" or "topleft split | enew")
-end, { noremap = true, silent = true })
--- focus on left window or split
+end, { noremap = true, silent = true, desc = 'Focus upper window or split' })
 vim.keymap.set("n", "<C-l>", function()
   vim.cmd(vim.fn.winnr("l") ~= vim.fn.winnr() and "wincmd l" or "botright vsplit | enew")
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true, desc = 'Focus right window or split' })
+-- Buffer navigation
+vim.keymap.set('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elete' })
 -- Terminal
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>') -- exit terminal mode
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 -- Other
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -95,13 +95,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('lsp-attach-keymaps', { clear = true }),
   callback = function(event)
-    local map = function(keys, func, desc)
-      vim.keymap.set('n', keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+    local map = function(keys, func, desc, mode)
+      mode = mode or 'n'
+      vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
     end
     map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
     map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+    map('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+    map('<leader>gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
     map('<leader>sl', require('telescope.builtin').lsp_document_symbols, '[S]earch Document Symbo[l]s')
     map('<leader>sW', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S]earch [W]orkspace Symbols')
+    map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame Symbol')
+    map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'v' })
+    map('K', vim.lsp.buf.hover, 'Hover Documentation')
+    map('<leader>ds', vim.lsp.buf.signature_help, '[D]isplay [S]ignature Help')
+    map('<leader>f', function() require('conform').format { async = true, lsp_format = 'fallback' } end, '[F]ormat Buffer')
   end,
 })
 
@@ -199,6 +208,26 @@ require('lazy').setup({
         topdelete = { text = '‾' },
         changedelete = { text = '~' },
       },
+      on_attach = function(bufnr)
+        local gs = require('gitsigns')
+        local function map(mode, l, r, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          vim.keymap.set(mode, l, r, opts)
+        end
+        -- Navigation
+        map('n', ']h', function() gs.nav_hunk('next') end, { desc = 'Next git hunk' })
+        map('n', '[h', function() gs.nav_hunk('prev') end, { desc = 'Previous git hunk' })
+        -- Actions
+        map('n', '<leader>hs', gs.stage_hunk, { desc = 'Git [H]unk [S]tage' })
+        map('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { desc = 'Git [H]unk [S]tage' })
+        map('n', '<leader>hr', gs.reset_hunk, { desc = 'Git [H]unk [R]eset' })
+        map('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { desc = 'Git [H]unk [R]eset' })
+        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Git [H]unk [U]ndo Stage' })
+        map('n', '<leader>hp', gs.preview_hunk, { desc = 'Git [H]unk [P]review' })
+        map('n', '<leader>hb', function() gs.blame_line { full = true } end, { desc = 'Git [H]unk [B]lame Line' })
+        map('n', '<leader>hd', gs.diffthis, { desc = 'Git [H]unk [D]iff' })
+      end,
     },
   },
 
@@ -248,9 +277,15 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
+        { '<leader>b', group = '[B]uffer' },
+        { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]isplay' },
+        { '<leader>e', group = '[E]xplorer' },
+        { '<leader>g', group = '[G]oto' },
+        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>r', group = '[R]efactor' },
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
   },
@@ -365,6 +400,14 @@ require('lazy').setup({
   { -- Treesitter: syntax-aware highlighting and indentation
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    opts = {
+      ensure_installed = {
+        'c', 'cpp', 'rust', 'python', 'lua',
+        'markdown', 'markdown_inline',
+        'json', 'yaml', 'toml',
+        'bash', 'vim', 'vimdoc', 'query',
+      },
+    },
   },
 
   { -- LSP: language servers managed by Mason
@@ -377,9 +420,7 @@ require('lazy').setup({
       -- Configure individual language servers
       vim.lsp.config('lua_ls', {
         settings = {
-          Lua = {
-            diagnostics = { globals = { 'vim' } },
-          },
+          Lua = {},
         },
       })
       vim.lsp.config('basedpyright', {
@@ -389,12 +430,55 @@ require('lazy').setup({
           },
         },
       })
+      vim.lsp.config('clangd', {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--clang-tidy',
+          '--header-insertion=iwyu',
+          '--completion-style=detailed',
+          '--fallback-style=llvm',
+        },
+      })
+      vim.lsp.config('rust_analyzer', {
+        settings = {
+          ['rust-analyzer'] = {
+            check = { command = 'clippy' },
+            cargo = { allFeatures = true },
+            procMacro = { enable = true },
+          },
+        },
+      })
+      vim.lsp.config('jsonls', {
+        settings = {
+          json = {
+            validate = { enable = true },
+          },
+        },
+      })
+      vim.lsp.config('yamlls', {
+        settings = {
+          yaml = {
+            schemaStore = { enable = true },
+          },
+        },
+      })
 
       require('mason-lspconfig').setup {
-        ensure_installed = { 'basedpyright', 'ruff', 'lua_ls' },
+        ensure_installed = {
+          'basedpyright', 'ruff', 'lua_ls',
+          'clangd', 'rust_analyzer',
+          'jsonls', 'yamlls', 'marksman',
+        },
         automatic_enable = true,
       }
     end,
+  },
+
+  { -- Lua development: full vim.* API support for lua_ls
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {},
   },
 
   { -- Autocompletion
@@ -404,6 +488,16 @@ require('lazy').setup({
     opts = {
       keymap = { preset = 'default' },
       appearance = { nerd_font_variant = 'mono' },
+      sources = {
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          lazydev = {
+            name = 'LazyDev',
+            module = 'lazydev.integrations.blink',
+            score_offset = 100,
+          },
+        },
+      },
     },
   },
 
@@ -426,6 +520,9 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         python = { 'ruff_organize_imports', 'ruff_format' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        markdown = { 'prettier' },
       },
       format_on_save = {
         timeout_ms = 500,
