@@ -2,97 +2,79 @@
 
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# ---------- emacs ----------
-echo -n "Install configuration for Spacemacs/Emacs/None [S/e/n]: "
-read ANSWER
-ANSWER="${ANSWER:=S}"
-case $ANSWER in
-    [E/e/Emacs/emacs]*)
-        ln -sfn ${BASEDIR}/.emacs ~/.emacs
-        ln -sfn ${BASEDIR}/.emacs.d/ ~/.emacs.d
-        ;;
-    [S/s/Spacemacs/spacemacs]*)
-        ln -sfn ${BASEDIR}/.spacemacs ~/.spacemacs
+modules=(
+    "zsh         Z shell + powerlevel10k theme"
+    "vim         Vim + Vundle plugins"
+    "emacs       Vanilla Emacs config"
+    "spacemacs   Spacemacs distribution"
+    "neovim      Neovim + lazy.nvim"
+    "sway        Sway + waybar"
+    "i3          i3 + i3blocks"
+)
 
-        if [ ! -d ${BASEDIR}/.spacemacs.d ]
-        then
-            git clone https://github.com/syl20bnr/spacemacs ${BASEDIR}/.spacemacs.d
-        fi
-        ln -sfn ${BASEDIR}/.spacemacs.d ~/.emacs.d
-        ;;
-    [N/n/None]*)
-        break
-        ;;
-esac
+echo "Available modules:"
+for i in "${!modules[@]}"; do
+    printf "  %d) %s\n" "$((i+1))" "${modules[$i]}"
+done
+echo ""
+echo -n "Select modules (space-separated numbers, or 'all'): "
+read -r selection
 
-
-# ---------- vim ----------
-echo -n "Install vim configuration [Y/n]: "
-read ANSWER
-ANSWER="${ANSWER:=Y}"
-if [[ $ANSWER =~ ^[Yy]$ ]]
-then
-    ln -sfn ${BASEDIR}/.vimrc ~/.vimrc
-    ln -sfn ${BASEDIR}/.vim/ ~/.vim
-    # install Vundle
-    if [ ! -d ${BASEDIR}/.vim/bundle ]
-    then
-        mkdir ${BASEDIR}/.vim
-        mkdir ${BASEDIR}/.vim/bundle
-        git clone https://github.com/VundleVim/Vundle.vim.git ${BASEDIR}/.vim/bundle/Vundle.vim
-        # install plugins through vundle
-        vim +PluginInstall +qall
-    fi
+if [[ "$selection" == "all" ]]; then
+    selected=($(seq 1 ${#modules[@]}))
+else
+    read -ra selected <<< "$selection"
 fi
 
-# ---------- zsh ----------
-echo -n "Install z shell configuration [Y/n]: "
-read ANSWER
-ANSWER="${ANSWER:=Y}"
-if [[ $ANSWER =~ ^[Yy]$ ]]
-    then
-    ln -sfn ${BASEDIR}/.zshrc ~/.zshrc
-    if [ ! -d ${BASEDIR}/.antigen ]
-    then
-        git clone https://github.com/zsh-users/antigen ${BASEDIR}/.antigen
-    fi
-    ln -sfn ${BASEDIR}/.antigen/ ~/.antigen
-    if [ ! -d ${BASEDIR}/.powerlevel10k ]
-    then
-        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./.powerlevel10k
-    fi
-    ln -sfn ${BASEDIR}/.p10k.zsh ~/.p10k.zsh
-#    if [ ! -d ${BASEDIR}/fonts ]
-#    then
-#        git clone https://github.com/powerline/fonts ${BASEDIR}/fonts
-#        ${BASEDIR}/fonts/install.sh
-#    fi
-#    if [ ! -d ${BASEDIR}/gnome-terminal-colors-solarized ]
-#    then
-#        git clone https://github.com/sigurdga/gnome-terminal-colors-solarized.git ${BASEDIR}/gnome-terminal-colors-solarized
-#        ${BASEDIR}/gnome-terminal-colors-solarized/install.sh
-#    fi
-fi
-
-# ---------- i3 ----------
-echo -n "Install i3 configuration [Y/n]: "
-read ANSWER
-ANSWER="${ANSWER:=Y}"
-if [[ $ANSWER =~ ^[Yy]$ ]]
-    then
-        ln -sfn ${BASEDIR}/.config/i3 ~/.config/i3
-fi
-
-# ---------- sway + waybar ----------
-echo -n "Install sway/waybar configuration [Y/n]: "
-read ANSWER
-ANSWER="${ANSWER:=Y}"
-if [[ $ANSWER =~ ^[Yy]$ ]]
-then
-    mkdir -p ~/.config/sway
-    ln -sfn ${BASEDIR}/.config/sway/config ~/.config/sway/config
-    mkdir -p ~/.config/waybar/scripts
-    ln -sfn ${BASEDIR}/.config/waybar/config ~/.config/waybar/config
-    ln -sfn ${BASEDIR}/.config/waybar/style.css ~/.config/waybar/style.css
-    ln -sfn ${BASEDIR}/.config/waybar/scripts/gpu-usage.sh ~/.config/waybar/scripts/gpu-usage.sh
-fi
+for num in "${selected[@]}"; do
+    case $num in
+        1) # zsh
+            ln -sfn "$BASEDIR/.zshrc" ~/.zshrc
+            ln -sfn "$BASEDIR/.p10k.zsh" ~/.p10k.zsh
+            [[ ! -d "$BASEDIR/.antigen" ]] && git clone https://github.com/zsh-users/antigen "$BASEDIR/.antigen"
+            ln -sfn "$BASEDIR/.antigen" ~/.antigen
+            [[ ! -d "$BASEDIR/.powerlevel10k" ]] && git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$BASEDIR/.powerlevel10k"
+            echo "  zsh: done"
+            ;;
+        2) # vim
+            ln -sfn "$BASEDIR/.vimrc" ~/.vimrc
+            if [[ ! -d "$BASEDIR/.vim/bundle" ]]; then
+                mkdir -p "$BASEDIR/.vim/bundle"
+                git clone https://github.com/VundleVim/Vundle.vim.git "$BASEDIR/.vim/bundle/Vundle.vim"
+                vim +PluginInstall +qall
+            fi
+            ln -sfn "$BASEDIR/.vim" ~/.vim
+            echo "  vim: done"
+            ;;
+        3) # emacs
+            ln -sfn "$BASEDIR/.emacs" ~/.emacs
+            ln -sfn "$BASEDIR/.emacs.d" ~/.emacs.d
+            echo "  emacs: done"
+            ;;
+        4) # spacemacs
+            ln -sfn "$BASEDIR/.spacemacs" ~/.spacemacs
+            [[ ! -d "$BASEDIR/.spacemacs.d" ]] && git clone https://github.com/syl20bnr/spacemacs "$BASEDIR/.spacemacs.d"
+            ln -sfn "$BASEDIR/.spacemacs.d" ~/.emacs.d
+            echo "  spacemacs: done"
+            ;;
+        5) # neovim
+            mkdir -p ~/.config
+            ln -sfn "$BASEDIR/.config/nvim" ~/.config/nvim
+            echo "  neovim: done"
+            ;;
+        6) # sway
+            mkdir -p ~/.config
+            ln -sfn "$BASEDIR/.config/sway" ~/.config/sway
+            ln -sfn "$BASEDIR/.config/waybar" ~/.config/waybar
+            echo "  sway: done"
+            ;;
+        7) # i3
+            mkdir -p ~/.config
+            ln -sfn "$BASEDIR/.config/i3" ~/.config/i3
+            echo "  i3: done"
+            ;;
+        *)
+            echo "  Unknown module: $num (skipped)"
+            ;;
+    esac
+done
