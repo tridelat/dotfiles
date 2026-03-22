@@ -103,13 +103,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
     map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
     map('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-    map('<leader>gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
-    map('<leader>sl', require('telescope.builtin').lsp_document_symbols, '[S]earch Document Symbo[l]s')
-    map('<leader>sW', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S]earch [W]orkspace Symbols')
-    map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame Symbol')
+    map('gy', require('telescope.builtin').lsp_type_definitions, '[G]oto T[y]pe Definition')
+    map('<leader>ss', require('telescope.builtin').lsp_document_symbols, '[S]earch Document [S]ymbols')
+    map('<leader>sS', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S]earch Workspace [S]ymbols')
+    map('<leader>cr', vim.lsp.buf.rename, '[C]ode [R]ename')
     map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'v' })
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
-    map('<leader>ds', vim.lsp.buf.signature_help, '[D]isplay [S]ignature Help')
+    map('<leader>cs', vim.lsp.buf.signature_help, '[C]ode [S]ignature Help')
     map('<leader>f', function() require('conform').format { async = true, lsp_format = 'fallback' } end, '[F]ormat Buffer')
   end,
 })
@@ -219,14 +219,14 @@ require('lazy').setup({
         map('n', ']h', function() gs.nav_hunk('next') end, { desc = 'Next git hunk' })
         map('n', '[h', function() gs.nav_hunk('prev') end, { desc = 'Previous git hunk' })
         -- Actions
-        map('n', '<leader>hs', gs.stage_hunk, { desc = 'Git [H]unk [S]tage' })
-        map('v', '<leader>hs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { desc = 'Git [H]unk [S]tage' })
-        map('n', '<leader>hr', gs.reset_hunk, { desc = 'Git [H]unk [R]eset' })
-        map('v', '<leader>hr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { desc = 'Git [H]unk [R]eset' })
-        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Git [H]unk [U]ndo Stage' })
-        map('n', '<leader>hp', gs.preview_hunk, { desc = 'Git [H]unk [P]review' })
-        map('n', '<leader>hb', function() gs.blame_line { full = true } end, { desc = 'Git [H]unk [B]lame Line' })
-        map('n', '<leader>hd', gs.diffthis, { desc = 'Git [H]unk [D]iff' })
+        map('n', '<leader>gs', gs.stage_hunk, { desc = '[G]it [S]tage Hunk' })
+        map('v', '<leader>gs', function() gs.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { desc = '[G]it [S]tage Hunk' })
+        map('n', '<leader>gr', gs.reset_hunk, { desc = '[G]it [R]eset Hunk' })
+        map('v', '<leader>gr', function() gs.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end, { desc = '[G]it [R]eset Hunk' })
+        map('n', '<leader>gu', gs.undo_stage_hunk, { desc = '[G]it [U]ndo Stage Hunk' })
+        map('n', '<leader>gp', gs.preview_hunk, { desc = '[G]it [P]review Hunk' })
+        map('n', '<leader>gb', function() gs.blame_line { full = true } end, { desc = '[G]it [B]lame Line' })
+        map('n', '<leader>gd', gs.diffthis, { desc = '[G]it [D]iff' })
       end,
     },
   },
@@ -279,13 +279,9 @@ require('lazy').setup({
       spec = {
         { '<leader>b', group = '[B]uffer' },
         { '<leader>c', group = '[C]ode' },
-        { '<leader>d', group = '[D]isplay' },
         { '<leader>e', group = '[E]xplorer' },
-        { '<leader>g', group = '[G]oto' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
-        { '<leader>r', group = '[R]efactor' },
+        { '<leader>g', group = '[G]it', mode = { 'n', 'v' } },
         { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
       },
     },
   },
@@ -341,7 +337,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
