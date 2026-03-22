@@ -82,3 +82,17 @@ if [[ $ANSWER =~ ^[Yy]$ ]]
     then
         ln -sfn ${BASEDIR}/.config/i3 ~/.config/i3
 fi
+
+# ---------- sway + waybar ----------
+echo -n "Install sway/waybar configuration [Y/n]: "
+read ANSWER
+ANSWER="${ANSWER:=Y}"
+if [[ $ANSWER =~ ^[Yy]$ ]]
+then
+    mkdir -p ~/.config/sway
+    ln -sfn ${BASEDIR}/.config/sway/config ~/.config/sway/config
+    mkdir -p ~/.config/waybar/scripts
+    ln -sfn ${BASEDIR}/.config/waybar/config ~/.config/waybar/config
+    ln -sfn ${BASEDIR}/.config/waybar/style.css ~/.config/waybar/style.css
+    ln -sfn ${BASEDIR}/.config/waybar/scripts/gpu-usage.sh ~/.config/waybar/scripts/gpu-usage.sh
+fi
