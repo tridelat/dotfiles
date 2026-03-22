@@ -3,7 +3,7 @@ allow_bold = true
 #audible_bell = false
 #clickable_url = true
 #dynamic_title = true
-font = DejaVu Sans Mono 9
+font = JetBrains Mono NF 8
 #fullscreen = true
 #geometry = 640x480
 #icon_name = terminal
@@ -38,68 +38,45 @@ scrollback_lines = 10000
 # "off", "left" or "right"
 #scrollbar = off
 
+# Colors (Tokyonight Night)
 [colors]
-
-[colors]
-foreground      = #93a1a1
-foreground_bold = #eee8d5
-cursor          = #eee8d5
-background      = #002b36
-background      = rgba(0, 34, 54, 0.8)
-
-# 16 color space
+foreground      = #c0caf5
+foreground_bold = #c0caf5
+cursor          = #c0caf5
+background      = rgba(26, 27, 38, 0.8)
 
 # Black, Gray, Silver, White
-color0  = #002b36
-color8  = #657b83
-color7  = #93a1a1
-color15 = #fdf6e3
+color0  = #15161e
+color8  = #414868
+color7  = #a9b1d6
+color15 = #c0caf5
 
 # Red
-color1  = #dc322f
-color9  = #dc322f
+color1  = #f7768e
+color9  = #f7768e
 
 # Green
-color2  = #859900
-color10 = #859900
+color2  = #9ece6a
+color10 = #9ece6a
 
 # Yellow
-color3  = #b58900
-color11 = #b58900
+color3  = #e0af68
+color11 = #e0af68
 
 # Blue
-color4  = #268bd2
-color12 = #268bd2
+color4  = #7aa2f7
+color12 = #7aa2f7
 
-# Purple
-color5  = #6c71c4
-color13 = #6c71c4
+# Magenta
+color5  = #bb9af7
+color13 = #bb9af7
 
-# Teal
-color6  = #2aa198
-color14 = #2aa198
-
-# Extra colors
-color16 = #cb4b16
-color17 = #d33682
-color18 = #073642
-color19 = #586e75
-color20 = #839496
-color21 = #eee8d5
-
-# If both of these are unset, cursor falls back to the foreground color,
-# and cursor_foreground falls back to the background color.
-#cursor = #dcdccc
-#cursor_foreground = #dcdccc
-
-#foreground = #dcdccc
-#foreground_bold = #ffffff
-#background = #3f3f3f
-
-# 20% background transparency (requires a compositor)
+# Cyan
+color6  = #7dcfff
+color14 = #7dcfff
 
 # If unset, will reverse foreground and background
-highlight = #2f2f2f
+highlight = #283457
 
 
 [hints]

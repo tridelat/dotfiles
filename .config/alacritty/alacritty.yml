@@ -103,7 +103,7 @@
 
 font:
   normal:
-    family: "MesloLGS NF"
+    family: "JetBrains Mono NF"
   size: 8.0
 
 # Font configuration
@@ -856,31 +856,31 @@ background_opacity: 0.8
   # Print all received window events.
   #print_events: false
 
-## Colors (Blood Moon)
+## Colors (Tokyonight Night)
 colors:
   # Default colors
   primary:
-    foreground: '0x93A1A1'
-    background: '0x002B36'
+    foreground: '0xc0caf5'
+    background: '0x1a1b26'
 
   # Normal colors
   normal:
-    black:   '0x10100E'
-    red:     '0xC40233'
-    green:   '0x009F6B'
-    yellow:  '0xFFD700'
-    blue:    '0x0087BD'
-    magenta: '0x9A4EAE'
-    cyan:    '0x20B2AA'
-    white:   '0xC6C6C4'
+    black:   '0x15161e'
+    red:     '0xf7768e'
+    green:   '0x9ece6a'
+    yellow:  '0xe0af68'
+    blue:    '0x7aa2f7'
+    magenta: '0xbb9af7'
+    cyan:    '0x7dcfff'
+    white:   '0xa9b1d6'
 
   # Bright colors
   bright:
-    black:   '0x696969'
-    red:     '0xFF2400'
-    green:   '0x03C03C'
-    yellow:  '0xFDFF00'
-    blue:    '0x007FFF'
-    magenta: '0xFF1493'
-    cyan:    '0x00CCCC'
-    white:   '0xFFFAFA'
+    black:   '0x414868'
+    red:     '0xf7768e'
+    green:   '0x9ece6a'
+    yellow:  '0xe0af68'
+    blue:    '0x7aa2f7'
+    magenta: '0xbb9af7'
+    cyan:    '0x7dcfff'
+    white:   '0xc0caf5'
