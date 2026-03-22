@@ -36,7 +36,7 @@ set $yellow    #e0af68
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/tridelat/Downloads/wallpaper2_synthwave_sunset.png fill
+# output * bg /home/tridelat/Downloads/wallpaper2_synthwave_sunset.png2 fill
 #
 # Example configuration:
 #
@@ -52,6 +52,7 @@ exec swayidle -w \
     before-sleep 'swaylock -f'
 
 bindsym $mod+Escape exec swaylock -f
+bindsym $mod+x exec swaylock -f
 
 ### Input configuration
 #
@@ -72,7 +73,7 @@ bindsym $mod+Escape exec swaylock -f
 # Read `man 5 sway-input` for more information about this section.
 
 default_border pixel 2
-default_floating_border pixel 2
+default_floating_border none
 smart_borders on
 
 client.focused           $blue     $bg       $fg     $cyan      $blue
@@ -88,6 +89,7 @@ client.urgent            $red      $bg       $fg     $red       $red
     bindsym $mod+Return exec $term
 
     # Kill focused window
+    bindsym $mod+q kill
     bindsym $mod+Shift+q kill
 
     # Start your launcher
@@ -243,6 +245,8 @@ bar {
 }
 
 exec mako
+exec foot --app-id foot-btm btm
+for_window [app_id="foot-btm"] floating enable, resize set 900 600
 
 include /etc/sway/config.d/*
 

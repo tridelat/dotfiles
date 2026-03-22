@@ -33,9 +33,10 @@ Neovim configuration with lazy.nvim plugin manager.
 
 Sway Wayland compositor with waybar.
 
-- **Required:** `sway`, `foot`, `fuzzel`, `waybar`
-- **Optional:** `brightnessctl`, `grim` (screenshots), `wdisplays`, `pactl` (volume)
-- **Fonts:** Font Awesome 6 Free (for waybar icons)
+- **Required:** `sway`, `foot`, `fuzzel`, `waybar`, `swaylock`, `swayidle`, `mako`, `bottom` (btm)
+- **Optional:** `brightnessctl`, `grim` (screenshots), `slurp` (region select), `wl-clipboard`, `wdisplays`, `pactl` (volume)
+- **Optional (AUR):** `swayfx-git` (rounded corners, blur), `swaylock-effects-git` (blur, clock on lock screen)
+- **Fonts:** JetBrains Mono NF, Font Awesome 6 Free (for waybar icons)
 
 ### vim
 

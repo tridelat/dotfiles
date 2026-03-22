@@ -1,0 +1,54 @@
+[window]
+opacity = 0.8
+
+[bell]
+animation = "EaseOutExpo"
+color = "#c0caf5"
+duration = 100
+
+[colors.bright]
+black = "0x414868"
+blue = "0x7aa2f7"
+cyan = "0x7dcfff"
+green = "0x9ece6a"
+magenta = "0xbb9af7"
+red = "0xf7768e"
+white = "0xc0caf5"
+yellow = "0xe0af68"
+
+[colors.normal]
+black = "0x15161e"
+blue = "0x7aa2f7"
+cyan = "0x7dcfff"
+green = "0x9ece6a"
+magenta = "0xbb9af7"
+red = "0xf7768e"
+white = "0xa9b1d6"
+yellow = "0xe0af68"
+
+[colors.primary]
+background = "0x1a1b26"
+foreground = "0xc0caf5"
+
+[cursor]
+thickness = 0.2
+unfocused_hollow = true
+
+[cursor.style]
+blinking = "Off"
+shape = "Beam"
+
+[font]
+size = 8.0
+
+[font.bold]
+family = "JetBrains Mono NF"
+
+[font.bold_italic]
+family = "JetBrains Mono NF"
+
+[font.italic]
+family = "JetBrains Mono NF"
+
+[font.normal]
+family = "JetBrains Mono NF"

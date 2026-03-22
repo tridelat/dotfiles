@@ -56,7 +56,7 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move right"<CR>', { desc = '
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move up"<CR>', { desc = 'Forbid up arrow' })
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move down"<CR>', { desc = 'Forbid down arrow' })
 -- Window
-vim.keymap.set("n", "<leader>x", "<cmd>confirm q<CR>", { desc = 'Close window' })
+vim.keymap.set("n", "<leader>q", "<cmd>confirm q<CR>", { desc = 'Close window' })
 vim.keymap.set("n", "<C-h>", function()
   vim.cmd(vim.fn.winnr("h") ~= vim.fn.winnr() and "wincmd h" or "topleft vsplit | enew")
 end, { noremap = true, silent = true, desc = 'Focus left window or split' })
@@ -76,7 +76,8 @@ vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = '[B]uffer [D]elet
 -- Terminal
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 -- Other
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>dd', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = '[D]iagnostic toggle' })
+vim.keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = '[D]iagnostic [F]loat' })
 
 ------------------
 -- AUTOCOMMANDS --
@@ -150,6 +151,8 @@ require('lazy').setup({
 
   { "github/copilot.vim" },
 
+  { 'nvim-tree/nvim-web-devicons', opts = { default = true } },
+
   -- File explorer: nvim-tree
   {
     "nvim-tree/nvim-tree.lua",
@@ -163,7 +166,7 @@ require('lazy').setup({
     end,
     opts = {
       renderer = {
-        icons = { show = { file = false, folder = false, folder_arrow = false, git = false } },
+        icons = { show = { file = true, folder = true, folder_arrow = true, git = true } },
         indent_width = 2,
         indent_markers = {
           enable = true,
@@ -279,6 +282,7 @@ require('lazy').setup({
       spec = {
         { '<leader>b', group = '[B]uffer' },
         { '<leader>c', group = '[C]ode' },
+        { '<leader>d', group = '[D]iagnostic' },
         { '<leader>e', group = '[E]xplorer' },
         { '<leader>g', group = '[G]it', mode = { 'n', 'v' } },
         { '<leader>s', group = '[S]earch' },
@@ -462,11 +466,13 @@ require('lazy').setup({
       require('mason-lspconfig').setup {
         ensure_installed = {
           'basedpyright', 'ruff', 'lua_ls',
-          'clangd', 'rust_analyzer',
+          'rust_analyzer',
           'jsonls', 'yamlls', 'marksman',
         },
         automatic_enable = true,
       }
+      -- Enable system-installed LSP servers (not managed by Mason)
+      vim.lsp.enable('clangd')
     end,
   },
 
@@ -498,11 +504,34 @@ require('lazy').setup({
 
   { -- Statusline
     'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
-        icons_enabled = false,
+        icons_enabled = true,
+        theme = 'tokyonight',
         component_separators = '|',
         section_separators = '',
+      },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff' },
+        lualine_c = { 'filename' },
+        lualine_x = {
+          {
+            function()
+              local clients = vim.lsp.get_clients({ bufnr = 0 })
+              if #clients == 0 then return '' end
+              local names = {}
+              for _, client in ipairs(clients) do
+                table.insert(names, client.name)
+              end
+              return table.concat(names, ', ')
+            end,
+            icon = ' ',
+          },
+        },
+        lualine_y = { 'encoding', 'filetype' },
+        lualine_z = { 'location', 'progress' },
       },
     },
   },
@@ -515,12 +544,15 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         python = { 'ruff_organize_imports', 'ruff_format' },
+        c = { 'clang-format' },
+        cpp = { 'clang-format' },
+        rust = { 'rustfmt' },
         json = { 'prettier' },
         yaml = { 'prettier' },
         markdown = { 'prettier' },
       },
       format_on_save = {
-        timeout_ms = 500,
+        timeout_ms = 1000,
         lsp_format = 'fallback',
       },
     },
@@ -535,6 +567,23 @@ require('lazy').setup({
   { -- Surround: add/delete/change surrounding characters
     'echasnovski/mini.surround',
     opts = {},
+  },
+
+  { -- Indent scope: visual indent guides
+    'echasnovski/mini.indentscope',
+    event = { 'BufReadPost', 'BufNewFile' },
+    opts = {
+      symbol = '│',
+      options = { try_as_border = true },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'help', 'lazy', 'mason', 'NvimTree' },
+        callback = function()
+          vim.b.miniindentscope_disable = true
+        end,
+      })
+    end,
   },
 
   { -- Treesitter-based textobjects: select/move by function, class, etc.
@@ -574,6 +623,28 @@ require('lazy').setup({
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+
+  { -- Quick cursor jumping
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {},
+    keys = {
+      { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
+      { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },
+      { 'r', mode = 'o', function() require('flash').remote() end, desc = 'Remote Flash' },
+      { 'R', mode = { 'o', 'x' }, function() require('flash').treesitter_search() end, desc = 'Treesitter Search' },
+    },
+  },
+
+  { -- Better diagnostics list
+    'folke/trouble.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    cmd = 'Trouble',
+    opts = {},
+    keys = {
+      { '<leader>dl', '<cmd>Trouble diagnostics toggle<CR>', desc = '[D]iagnostic [L]ist (Trouble)' },
+    },
+  },
 
 })
 
