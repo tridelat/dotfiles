@@ -1,0 +1,73 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/gpu", "cpu", "disk", "battery", "pulseaudio", "tray"],
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": "{}"
+    },
+
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M:%S}",
+        "interval": 1,
+        "tooltip-format": "{:%A, %B %d, %Y}"
+    },
+
+    "cpu": {
+        "format": "󰍛 {usage}%",
+        "interval": 5,
+        "tooltip": true
+    },
+
+    "disk": {
+        "path": "/",
+        "format": "󰋊 {used}",
+        "interval": 60,
+        "tooltip-format": "{used} used / {total} total ({percentage_used}%)"
+    },
+
+    "battery": {
+        "bat": "BAT0",
+        "interval": 10,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}% 󱐋 {power:0.1f}W",
+        "format-charging": "󰂄 {capacity}% 󱐋 {power:0.1f}W",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-full": "󰁹 FULL",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip-format": "{timeTo}\n{capacity}% — {power:0.1f}W"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-icons": ["󰕿", "󰖀", "󰕾"],
+        "format-muted": "󰝟 MUTE",
+        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "tooltip-format": "{desc}\n{volume}%"
+    },
+
+    "custom/gpu": {
+        "exec": "~/.config/waybar/scripts/gpu-usage.sh",
+        "return-type": "json",
+        "interval": 5,
+        "format": "{}",
+        "tooltip": true
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    }
+}
