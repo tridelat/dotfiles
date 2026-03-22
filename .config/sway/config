@@ -18,6 +18,17 @@ set $term foot
 # Your preferred application launcher
 set $menu fuzzel
 
+set $bg        #1a1b26
+set $bg_dark   #15161e
+set $fg        #c0caf5
+set $inactive  #414868
+set $blue      #7aa2f7
+set $magenta   #bb9af7
+set $cyan      #7dcfff
+set $red       #f7768e
+set $green     #9ece6a
+set $yellow    #e0af68
+
 # set $menu foot --title "Jiffy" -e jiffy
 # for_window [title="Jiffy"] floating enable
 # for_window [title="Jiffy"] move position 0 0
@@ -34,17 +45,13 @@ output * bg /home/tridelat/Downloads/wallpaper2_synthwave_sunset.png fill
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 ### Idle configuration
-#
-# Example configuration:
-#
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#          before-sleep 'swaylock -f -c 000000'
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+exec swayidle -w \
+    timeout 300 'swaylock -f' \
+    timeout 600 'swaymsg "output * power off"' \
+    resume 'swaymsg "output * power on"' \
+    before-sleep 'swaylock -f'
+
+bindsym $mod+Escape exec swaylock -f
 
 ### Input configuration
 #
@@ -63,6 +70,15 @@ output * bg /home/tridelat/Downloads/wallpaper2_synthwave_sunset.png fill
 #
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
+
+default_border pixel 2
+default_floating_border pixel 2
+smart_borders on
+
+client.focused           $blue     $bg       $fg     $cyan      $blue
+client.focused_inactive  $inactive $bg_dark  $fg     $inactive  $inactive
+client.unfocused         $bg_dark  $bg_dark  $inactive $bg_dark $bg_dark
+client.urgent            $red      $bg       $fg     $red       $red
 
 ### Key bindings
 #
@@ -214,8 +230,9 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
     # Special key to configure displays via wdisplays
     bindsym XF86Display exec wdisplays
-    # Special key to take a screenshot with grim
-    bindsym Print exec grim
+    # Screenshots: Print=full screen, Mod+Print=region select (both to clipboard)
+    bindsym Print exec grim - | wl-copy
+    bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
 
 #
 # Status Bar:
@@ -225,10 +242,21 @@ bar {
     swaybar_command waybar
 }
 
+exec mako
+
 include /etc/sway/config.d/*
 
-gaps inner 5
-# gaps outer 2
+gaps inner 8
+gaps outer 4
+
+# Uncomment if using swayfx (AUR: swayfx-git)
+# corner_radius 8
+# blur enable
+# blur_passes 2
+# blur_radius 5
+# shadows enable
+# shadow_blur_radius 10
+# shadow_color #00000066
 
 # adjust scale according to resolution
 output eDP-1 scale 2

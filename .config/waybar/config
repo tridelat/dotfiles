@@ -1,11 +1,14 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 30,
+    "height": 34,
+    "margin-top": 4,
+    "margin-left": 8,
+    "margin-right": 8,
 
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["clock"],
-    "modules-right": ["custom/gpu", "cpu", "disk", "battery", "pulseaudio", "tray"],
+    "modules-right": ["custom/gpu", "cpu", "disk", "network", "pulseaudio", "battery", "tray"],
 
     "sway/workspaces": {
         "disable-scroll": true,
@@ -17,9 +20,10 @@
     },
 
     "clock": {
-        "format": "{:%Y-%m-%d %H:%M:%S}",
+        "format": "  {:%H:%M:%S}",
+        "format-alt": "  {:%Y-%m-%d %A}",
         "interval": 1,
-        "tooltip-format": "{:%A, %B %d, %Y}"
+        "tooltip-format": "<tt>{calendar}</tt>"
     },
 
     "cpu": {
@@ -64,6 +68,15 @@
         "interval": 5,
         "format": "{}",
         "tooltip": true
+    },
+
+    "network": {
+        "format-wifi": "󰤨 {signalStrength}%",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-disconnected": "󰤭 OFF",
+        "tooltip-format-wifi": "{essid}\n{ipaddr}/{cidr}",
+        "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}",
+        "interval": 5
     },
 
     "tray": {

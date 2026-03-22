@@ -66,6 +66,10 @@ for num in "${selected[@]}"; do
             mkdir -p ~/.config
             ln -sfn "$BASEDIR/.config/sway" ~/.config/sway
             ln -sfn "$BASEDIR/.config/waybar" ~/.config/waybar
+            ln -sfn "$BASEDIR/.config/foot" ~/.config/foot
+            ln -sfn "$BASEDIR/.config/fuzzel" ~/.config/fuzzel
+            ln -sfn "$BASEDIR/.config/mako" ~/.config/mako
+            ln -sfn "$BASEDIR/.config/swaylock" ~/.config/swaylock
             echo "  sway: done"
             ;;
         7) # i3
