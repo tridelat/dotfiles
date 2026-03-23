@@ -16,9 +16,9 @@ fi
 
 class="normal"
 if (( utilization > 90 )); then
-    class="high"
-elif (( utilization > 50 )); then
-    class="medium"
+    class="critical"
+elif (( utilization > 70 )); then
+    class="warning"
 fi
 
 printf '{"text": "󰢮 %s%%", "tooltip": "Utilization: %s%%\\nPower: %sW\\nTemp: %s°C", "class": "%s"}\n' \

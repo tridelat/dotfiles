@@ -1,5 +1,5 @@
 [window]
-opacity = 0.8
+opacity = 0.95
 
 [bell]
 animation = "EaseOutExpo"
@@ -36,7 +36,7 @@ unfocused_hollow = true
 
 [cursor.style]
 blinking = "Off"
-shape = "Beam"
+shape = "Block"
 
 [font]
 size = 8.0

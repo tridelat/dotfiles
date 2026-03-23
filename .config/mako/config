@@ -1,27 +1,29 @@
 font=JetBrains Mono NF 10
-background-color=#1a1b26ee
+background-color=#1a1b26e6
 text-color=#c0caf5
-border-color=#7aa2f7cc
+border-color=#7dcfffaa
 border-size=2
-border-radius=12
-padding=12
+border-radius=0
+padding=16,20
 margin=12
-width=350
-height=150
+width=400
+height=180
 default-timeout=5000
 icons=1
 max-icon-size=48
 layer=overlay
 anchor=top-right
+format=<b>%s</b>\n<i>%b</i>
 
 [urgency=low]
-border-color=#414868cc
+border-color=#414868aa
 default-timeout=3000
 
 [urgency=normal]
-border-color=#7aa2f7cc
+border-color=#7dcfffaa
 
 [urgency=critical]
 border-color=#f7768ecc
 background-color=#1a1b26f0
 default-timeout=0
+text-color=#f7768e

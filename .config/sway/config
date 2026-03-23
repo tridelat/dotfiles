@@ -18,6 +18,8 @@ set $term foot
 # Your preferred application launcher
 set $menu fuzzel
 
+workspace_auto_back_and_forth yes
+
 set $bg        #1a1b26
 set $bg_dark   #15161e
 set $fg        #c0caf5
@@ -36,7 +38,7 @@ set $yellow    #e0af68
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /home/tridelat/Downloads/wallpaper2_synthwave_sunset.png2 fill
+output * bg ~/.config/sway/wallpaper.jpg fill
 #
 # Example configuration:
 #
@@ -72,11 +74,11 @@ bindsym $mod+x exec swaylock -f
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
 
-default_border pixel 2
+default_border pixel 1
 default_floating_border none
 smart_borders on
 
-client.focused           $blue     $bg       $fg     $cyan      $blue
+client.focused           $blue     $bg       $fg     $blue      $blue
 client.focused_inactive  $inactive $bg_dark  $fg     $inactive  $inactive
 client.unfocused         $bg_dark  $bg_dark  $inactive $bg_dark $bg_dark
 client.urgent            $red      $bg       $fg     $red       $red
@@ -105,8 +107,8 @@ client.urgent            $red      $bg       $fg     $red       $red
     # Reload the configuration file
     bindsym $mod+Shift+c reload
 
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    # Clipboard history
+    bindsym $mod+Shift+v exec cliphist list | fuzzel -d | cliphist decode | wl-copy
 #
 # Moving around:
 #
@@ -198,7 +200,7 @@ client.urgent            $red      $bg       $fg     $red       $red
 #
 # Resizing containers:
 #
-mode "resize" {
+mode "// RESIZE //" {
     # left will shrink the containers width
     # right will grow the containers width
     # up will shrink the containers height
@@ -218,7 +220,10 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "// RESIZE //"
+
+    # Exit sway (logs you out of your Wayland session)
+    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Utilities:
 #
@@ -232,9 +237,9 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
     # Special key to configure displays via wdisplays
     bindsym XF86Display exec wdisplays
-    # Screenshots: Print=full screen, Mod+Print=region select (both to clipboard)
-    bindsym Print exec grim - | wl-copy
-    bindsym $mod+Print exec grim -g "$(slurp)" - | wl-copy
+    # Screenshots: saved to file + clipboard with notification
+    bindsym Print exec grim "$HOME/Pictures/Screenshots/$(date +%Y%m%d_%H%M%S).png" && wl-copy < "$HOME/Pictures/Screenshots/$(ls -t $HOME/Pictures/Screenshots/ | head -1)" && notify-send "Screenshot" "Saved & copied to clipboard"
+    bindsym $mod+Print exec grim -g "$(slurp)" "$HOME/Pictures/Screenshots/$(date +%Y%m%d_%H%M%S).png" && wl-copy < "$HOME/Pictures/Screenshots/$(ls -t $HOME/Pictures/Screenshots/ | head -1)" && notify-send "Screenshot" "Region saved & copied to clipboard"
 
 #
 # Status Bar:
@@ -245,22 +250,25 @@ bar {
 }
 
 exec mako
-exec foot --app-id foot-btm btm
-for_window [app_id="foot-btm"] floating enable, resize set 900 600
+exec autotiling
+exec wl-paste --watch cliphist store
+
+# Dropdown scratchpad terminal (Mod+`)
+exec foot --app-id foot-dropdown
+for_window [app_id="foot-dropdown"] move scratchpad, resize set 100ppt 40ppt, move position 0 0
+bindsym $mod+grave [app_id="foot-dropdown"] scratchpad show
+
+# Inhibit idle when any window is fullscreen
+for_window [class=".*"] inhibit_idle fullscreen
+for_window [app_id=".*"] inhibit_idle fullscreen
+
+bindsym $mod+c exec foot --app-id foot-cava cava
+for_window [app_id="foot-cava"] floating enable, resize set 600 200, move position center, border pixel 1
 
 include /etc/sway/config.d/*
 
 gaps inner 8
-gaps outer 4
-
-# Uncomment if using swayfx (AUR: swayfx-git)
-# corner_radius 8
-# blur enable
-# blur_passes 2
-# blur_radius 5
-# shadows enable
-# shadow_blur_radius 10
-# shadow_color #00000066
+gaps outer 6
 
 # adjust scale according to resolution
 output eDP-1 scale 2
