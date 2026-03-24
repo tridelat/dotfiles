@@ -45,8 +45,20 @@ window#waybar {
     border-bottom: 2px solid rgba(122, 162, 247, 0.3);
 }
 
-/* --- Mode --- */
-#mode {
+/* --- Resize mode — orange --- */
+#custom-center.resize {
+    padding: 0 14px;
+    color: #1a1b26;
+    background-color: #ff9e64;
+    font-weight: bold;
+    border-radius: 0;
+    margin: 4px 2px;
+    animation: pulse-critical 1.2s ease-in-out infinite;
+    text-shadow: none;
+}
+
+/* --- Quit/Terminate mode — red --- */
+#custom-center.quit {
     padding: 0 14px;
     color: #1a1b26;
     background-color: #f7768e;
@@ -56,7 +68,6 @@ window#waybar {
     animation: pulse-critical 1.2s ease-in-out infinite;
     text-shadow: none;
 }
-
 /* --- Custom Logo --- */
 #custom-logo {
     padding: 0 12px;
@@ -92,7 +103,7 @@ window#waybar {
 }
 
 /* --- All data modules --- */
-#clock, #cpu, #memory, #custom-gpu, #disk, #battery,
+#custom-center, #cpu, #memory, #custom-gpu, #disk, #battery,
 #pulseaudio, #backlight, #network, #tray {
     padding: 0 11px;
     margin: 4px 1px;
@@ -100,8 +111,8 @@ window#waybar {
     background-color: transparent;
 }
 
-/* Individual module colors with neon glow */
-#clock {
+/* Clock (shown via custom/center) with neon glow */
+#custom-center.clock {
     color: #bb9af7;
     letter-spacing: 2px;
     text-shadow: 0 0 8px rgba(187, 154, 247, 0.8),

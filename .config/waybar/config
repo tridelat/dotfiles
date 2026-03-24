@@ -9,11 +9,10 @@
     "modules-left": [
         "custom/sep",
         "sway/workspaces",
-        "custom/sep",
-        "sway/mode"
+        "custom/sep"
     ],
     "modules-center": [
-        "clock"
+        "custom/center"
     ],
     "modules-right": [
         "custom/sep",
@@ -78,15 +77,12 @@
         }
     },
 
-    "sway/mode": {
-        "format": "// {} //"
-    },
-
-    "clock": {
-        "format": "  {:%H:%M:%S}",
-        "format-alt": "  {:%Y-%m-%d %A}",
+    "custom/center": {
+        "exec": "~/.config/waybar/scripts/center-clock.sh",
+        "return-type": "json",
         "interval": 1,
-        "tooltip-format": "<tt>{calendar}</tt>"
+        "format": "{}",
+        "tooltip": true
     },
 
     "backlight": {

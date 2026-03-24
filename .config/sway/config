@@ -222,8 +222,14 @@ mode "// RESIZE //" {
 }
 bindsym $mod+r mode "// RESIZE //"
 
-    # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+mode "// TERMINATE //" {
+    bindsym Return exec swaymsg exit
+    bindsym y exec swaymsg exit
+    bindsym Escape mode "default"
+    bindsym n mode "default"
+}
+bindsym $mod+Shift+e mode "// TERMINATE //"
+
 #
 # Utilities:
 #
