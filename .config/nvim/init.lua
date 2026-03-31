@@ -166,7 +166,7 @@ require('lazy').setup({
     end,
     opts = {
       renderer = {
-        icons = { show = { file = true, folder = true, folder_arrow = true, git = true } },
+        icons = { show = { file = false, folder = false, folder_arrow = true, git = false } },
         indent_width = 2,
         indent_markers = {
           enable = true,

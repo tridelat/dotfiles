@@ -18,12 +18,16 @@ window#waybar {
 /* --- Workspaces --- */
 #workspaces button {
     padding: 0 12px;
-    color: #414868;
+    color: rgba(122, 162, 247, 0.65);
     background-color: transparent;
     border-radius: 0;
     border-bottom: 2px solid transparent;
     margin: 4px 2px;
     transition: all 0.2s ease;
+}
+
+#workspaces button.empty {
+    color: #414868;
 }
 
 #workspaces button.focused {
