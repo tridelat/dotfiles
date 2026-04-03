@@ -166,7 +166,7 @@ require('lazy').setup({
     end,
     opts = {
       renderer = {
-        icons = { show = { file = false, folder = false, folder_arrow = true, git = false } },
+        icons = { show = { file = false, folder = false, folder_arrow = false, git = false } },
         indent_width = 2,
         indent_markers = {
           enable = true,
@@ -403,6 +403,7 @@ require('lazy').setup({
       ensure_installed = {
         'c', 'cpp', 'rust', 'python', 'lua',
         'markdown', 'markdown_inline',
+        'hcl', 'terraform',
         'json', 'yaml', 'toml',
         'bash', 'vim', 'vimdoc', 'query',
       },
@@ -448,6 +449,18 @@ require('lazy').setup({
           },
         },
       })
+      vim.lsp.config('terraformls', {
+        filetypes = { 'terraform', 'terraform-vars' },
+        settings = {
+          terraform = {
+            validation = { enableEnhancedValidation = true },
+          },
+          ['terraform-ls'] = {
+            prefillRequiredFields = true,
+          },
+        },
+      })
+      vim.lsp.config('tflint', {})
       vim.lsp.config('jsonls', {
         settings = {
           json = {
@@ -467,6 +480,7 @@ require('lazy').setup({
         ensure_installed = {
           'basedpyright', 'ruff', 'lua_ls',
           'rust_analyzer',
+          'terraformls', 'tflint',
           'jsonls', 'yamlls', 'marksman',
         },
         automatic_enable = true,
@@ -547,6 +561,7 @@ require('lazy').setup({
         c = { 'clang-format' },
         cpp = { 'clang-format' },
         rust = { 'rustfmt' },
+        terraform = { 'terraform_fmt' },
         json = { 'prettier' },
         yaml = { 'prettier' },
         markdown = { 'prettier' },
@@ -569,21 +584,15 @@ require('lazy').setup({
     opts = {},
   },
 
-  { -- Indent scope: visual indent guides
-    'echasnovski/mini.indentscope',
+  { -- Indent guides with scope highlighting
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
     event = { 'BufReadPost', 'BufNewFile' },
     opts = {
-      symbol = '│',
-      options = { try_as_border = true },
+      indent = { char = '│' },
+      scope = { enabled = true, show_start = false },
+      exclude = { filetypes = { 'help', 'lazy', 'mason', 'NvimTree' } },
     },
-    init = function()
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'help', 'lazy', 'mason', 'NvimTree' },
-        callback = function()
-          vim.b.miniindentscope_disable = true
-        end,
-      })
-    end,
   },
 
   { -- Treesitter-based textobjects: select/move by function, class, etc.

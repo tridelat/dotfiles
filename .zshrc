@@ -50,3 +50,21 @@ source ~/dotfiles/.powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 setopt NO_BEEP
+
+# fnm
+FNM_PATH="/home/tridelat/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "$(fnm env --shell zsh)"
+fi
+
+# pnpm
+export PNPM_HOME="/home/tridelat/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# To customize prompt, run `p10k configure` or edit ~/dotfiles/.p10k.zsh.
+[[ ! -f ~/dotfiles/.p10k.zsh ]] || source ~/dotfiles/.p10k.zsh

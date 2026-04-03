@@ -4,8 +4,10 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-json
+        exclude: lazy-lock\.json$
       - id: pretty-format-json
         args: [--autofix, --indent, "2", --no-sort-keys]
+        exclude: lazy-lock\.json$
       - id: check-yaml
       - id: check-toml
       - id: end-of-file-fixer
