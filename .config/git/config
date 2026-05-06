@@ -1,0 +1,104 @@
+# ─── core ────────────────────────────────────────────────────────────────
+[init]
+	defaultBranch = main
+
+[core]
+	pager = delta
+
+[column]
+	ui = auto
+
+[help]
+	autocorrect = prompt
+
+# ─── workflow ────────────────────────────────────────────────────────────
+[commit]
+	verbose = true
+
+[push]
+	autoSetupRemote = true
+
+[fetch]
+	prune     = true
+	pruneTags = true
+
+[rebase]
+	autosquash = true
+	autostash  = true
+
+[rerere]
+	enabled = true
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = version:refname
+
+# ─── diff / merge ────────────────────────────────────────────────────────
+[diff]
+	colorMoved = default
+	algorithm  = histogram
+
+[merge]
+	conflictstyle = zdiff3
+
+[interactive]
+	diffFilter = delta --color-only
+
+# ─── log ─────────────────────────────────────────────────────────────────
+[log]
+	date = relative
+
+[format]
+	pretty = nice
+
+[pretty]
+	nice = "tformat:%C(#e0af68)%h%C(reset)  %C(#9ece6a)%<(14,trunc)%ar%C(reset)  %s%C(auto)%d%C(reset) %C(#565f89)— %an%C(#565f89)%n%w(0,2,2)%-b%C(reset)"
+
+[alias]
+	lg  = log --graph
+	lga = log --graph --all
+
+# ─── delta (Tokyo Night) ─────────────────────────────────────────────────
+[delta]
+	features       = tokyo-night
+	navigate       = true
+	line-numbers   = true
+	side-by-side   = true
+	hyperlinks     = true
+	true-color     = always
+	syntax-theme   = DarkNeon
+	wrap-max-lines = unlimited
+
+[delta "tokyo-night"]
+	# additions / deletions
+	minus-style      = syntax "#3a1c25"
+	minus-emph-style = syntax "#6e2c3c"
+	plus-style       = syntax "#1f3a23"
+	plus-emph-style  = syntax "#36603e"
+	zero-style       = syntax
+
+	# line numbers
+	line-numbers-minus-style = "#f7768e"
+	line-numbers-plus-style  = "#9ece6a"
+	line-numbers-zero-style  = "#414868"
+	line-numbers-left-style  = "#414868"
+	line-numbers-right-style = "#414868"
+
+	# headers & decorations  (visual tiers: commit > file > hunk)
+	file-style                    = "#7aa2f7" bold
+	file-decoration-style         = "#7aa2f7" box ul
+	hunk-header-style             = "#bb9af7" italic
+	hunk-header-decoration-style  = "#414868" ul
+	hunk-header-file-style        = "#7dcfff"
+	hunk-header-line-number-style = "#e0af68"
+	commit-decoration-style       = "#e0af68" box ul
+	commit-style                  = "#e0af68" bold
+
+	# blame & whitespace
+	blame-palette          = "#1a1b26" "#1f2335" "#24283b" "#2a2e44"
+	whitespace-error-style = "#f7768e" reverse
+[user]
+	name = Tristan de Lataillade
+	email = tristan.delataillade@prediqtt.com
