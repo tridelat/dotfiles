@@ -1,4 +1,4 @@
-# ─── core ────────────────────────────────────────────────────────────────
+# --- core ----------------------------------------------------------------
 [init]
 	defaultBranch = main
 
@@ -11,7 +11,7 @@
 [help]
 	autocorrect = prompt
 
-# ─── workflow ────────────────────────────────────────────────────────────
+# --- workflow ------------------------------------------------------------
 [commit]
 	verbose = true
 
@@ -25,17 +25,13 @@
 [rebase]
 	autosquash = true
 	autostash  = true
-
-[rerere]
-	enabled = true
-
 [branch]
 	sort = -committerdate
 
 [tag]
 	sort = version:refname
 
-# ─── diff / merge ────────────────────────────────────────────────────────
+# --- diff / merge --------------------------------------------------------
 [diff]
 	colorMoved = default
 	algorithm  = histogram
@@ -46,21 +42,22 @@
 [interactive]
 	diffFilter = delta --color-only
 
-# ─── log ─────────────────────────────────────────────────────────────────
+# --- log -----------------------------------------------------------------
 [log]
-	date = relative
+	date = iso-local
 
 [format]
 	pretty = nice
 
 [pretty]
-	nice = "tformat:%C(#e0af68)%h%C(reset)  %C(#9ece6a)%<(14,trunc)%ar%C(reset)  %s%C(auto)%d%C(reset) %C(#565f89)— %an%C(#565f89)%n%w(0,2,2)%-b%C(reset)"
+	nice = "tformat:%C(#e0af68)%h%C(reset)  %C(#9ece6a)%<(14,trunc)%ar%C(reset)  %s%C(auto)%d%C(reset) %C(#565f89)-- %an <%ae>%n%-b%C(reset)"
 
 [alias]
-	lg  = log --graph
-	lga = log --graph --all
+	lg   = log --graph
+	lga  = log --graph --all
+	info = show --pretty=fuller
 
-# ─── delta (Tokyo Night) ─────────────────────────────────────────────────
+# --- delta (Tokyo Night) -------------------------------------------------
 [delta]
 	features       = tokyo-night
 	navigate       = true
