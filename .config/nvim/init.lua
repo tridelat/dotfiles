@@ -234,6 +234,64 @@ require('lazy').setup({
     },
   },
 
+  { -- Full-screen git diff viewer (branches, commits, history)
+    'sindrets/diffview.nvim',
+    cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewToggleFiles', 'DiffviewFocusFiles', 'DiffviewFileHistory' },
+    keys = {
+      -- --imply-local: right side shows working-tree buffers so LSP/diagnostics work in review
+      { '<leader>gv', '<cmd>DiffviewOpen --imply-local<cr>', desc = '[G]it [V]iew diff' },
+      { '<leader>gV', '<cmd>DiffviewClose<cr>', desc = '[G]it [V]iew close' },
+      { '<leader>gh', '<cmd>DiffviewFileHistory %<cr>', desc = '[G]it file [H]istory' },
+      { '<leader>gH', '<cmd>DiffviewFileHistory<cr>', desc = '[G]it repo [H]istory' },
+      { '<leader>gm', '<cmd>DiffviewOpen<cr>', desc = '[G]it [M]erge conflicts' },
+    },
+    opts = function()
+      local actions = require('diffview.actions')
+      return {
+        enhanced_diff_hl = true, -- better highlight of word-level changes
+        watch_index = true,      -- auto-refresh when the index changes
+        use_icons = false,
+        view = {
+          default = { layout = 'diff2_horizontal' },
+          merge_tool = { layout = 'diff3_mixed', disable_diagnostics = true },
+          file_history = { layout = 'diff2_horizontal' },
+        },
+        file_panel = {
+          listing_style = 'tree',
+          tree_options = { flatten_dirs = true, folder_statuses = 'only_folded' },
+          win_config = { position = 'left', width = 35 },
+        },
+        keymaps = {
+          view = {
+            { 'n', '<leader>co', actions.conflict_choose('ours'),   { desc = 'Choose OURS' } },
+            { 'n', '<leader>ct', actions.conflict_choose('theirs'), { desc = 'Choose THEIRS' } },
+            { 'n', '<leader>cb', actions.conflict_choose('base'),   { desc = 'Choose BASE' } },
+            { 'n', '<leader>ca', actions.conflict_choose('all'),    { desc = 'Choose ALL' } },
+            { 'n', 'dx',         actions.conflict_choose('none'),   { desc = 'Delete conflict region' } },
+            { 'n', ']x',         actions.next_conflict,             { desc = 'Next conflict' } },
+            { 'n', '[x',         actions.prev_conflict,             { desc = 'Prev conflict' } },
+          },
+          file_panel = {
+            { 'n', '<cr>',   actions.select_entry,     { desc = 'Open diff' } },
+            { 'n', 'o',      actions.select_entry,     { desc = 'Open diff' } },
+            { 'n', '-',      actions.toggle_stage_entry, { desc = 'Stage/unstage file' } },
+            { 'n', 'S',      actions.stage_all,        { desc = 'Stage all' } },
+            { 'n', 'U',      actions.unstage_all,      { desc = 'Unstage all' } },
+            { 'n', 'R',      actions.refresh_files,    { desc = 'Refresh' } },
+            { 'n', 'i',      actions.listing_style,    { desc = 'Toggle tree/list' } },
+            { 'n', 'zf',     actions.toggle_flatten_dirs, { desc = 'Flatten dirs' } },
+            { 'n', '<C-d>',  actions.scroll_view(0.5),  { desc = 'Scroll diff down' } },
+            { 'n', '<C-u>',  actions.scroll_view(-0.5), { desc = 'Scroll diff up' } },
+          },
+          file_history_panel = {
+            { 'n', 'g!',     actions.options,          { desc = 'History options' } },
+            { 'n', 'y',      actions.copy_hash,        { desc = 'Copy commit hash' } },
+          },
+        },
+      }
+    end,
+  },
+
   {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
