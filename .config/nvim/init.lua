@@ -151,6 +151,9 @@ require('lazy').setup({
 
   { "github/copilot.vim" },
 
+  -- Seamless Ctrl-h/j/k/l between nvim splits and tmux panes
+  { 'christoomey/vim-tmux-navigator', lazy = false },
+
   { 'nvim-tree/nvim-web-devicons', opts = { default = true } },
 
   -- File explorer: nvim-tree
